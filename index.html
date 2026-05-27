@@ -7,7 +7,166 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* Ajuste no container principal para permitir que a capa ocupe tudo */
+
+/* ===== RESET & VARS ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green-dark: #1a4a2e;
+  --green-mid: #2d7a4f;
+  --green-light: #4caf74;
+  --green-pale: #e8f5ee;
+  --green-ultra: #f2faf5;
+  --amber: #e8a020;
+  --amber-light: #fff8e8;
+  --blue: #1a6fa0;
+  --blue-light: #e8f4fc;
+  --red-light: #fff0f0;
+  --red: #c0392b;
+  --text-dark: #1a2e1e;
+  --text-mid: #3d5a42;
+  --text-light: #6b8570;
+  --border: #d4e8da;
+  --bg-page: #eef2ef;
+  --white: #ffffff;
+  --sidebar-w: 240px;
+  --content-max: 820px;
+}
+
+/* ===== LAYOUT ===== */
+html, body {
+  height: 100%;
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-dark);
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--green-dark);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+  box-shadow: 3px 0 20px rgba(0,0,0,0.22);
+}
+
+.sidebar-brand {
+  padding: 28px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+.sidebar-brand-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+  display: block;
+}
+.sidebar-brand-name {
+  font-family: 'Lora', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-light);
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+}
+.sidebar-brand-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.15) transparent;
+}
+.sidebar-nav::-webkit-scrollbar { width: 4px; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.6);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.18s;
+  line-height: 1.35;
+  margin-bottom: 2px;
+}
+.nav-item:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); }
+.nav-item.active {
+  background: var(--green-light);
+  color: var(--green-dark);
+  font-weight: 700;
+}
+.nav-item-num {
+  font-family: 'Lora', serif;
+  font-size: 11px;
+  font-weight: 700;
+  width: 20px;
+  flex-shrink: 0;
+  text-align: center;
+  opacity: 0.6;
+}
+.nav-item.active .nav-item-num { opacity: 1; }
+
+.sidebar-footer {
+  padding: 14px 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+.progress-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.progress-track {
+  height: 3px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green-light);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+  width: 10%;
+}
+.progress-text {
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 5px;
+}
+
+/* ===== MAIN CONTENT ===== */
 .main {
   flex: 1;
   height: 100vh;
@@ -16,102 +175,649 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0; /* Removido o padding daqui */
+  padding: 40px 48px 60px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }
+.main::-webkit-scrollbar { width: 6px; }
+.main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-/* Adicionando padding apenas nas páginas que NÃO são a capa */
+/* ===== PAGES ===== */
 .page {
   display: none;
   width: 100%;
   max-width: var(--content-max);
   animation: fadeUp 0.35s ease;
-  padding: 60px 48px; /* Padding movido para cá */
+}
+.page.active { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Página da capa específica (ID 0) */
-#page-0 {
-  display: none;
+/* ===== COVER PAGE ===== */
+.page#page-0 {
   max-width: 100%;
-  padding: 0; 
+  padding: 0;
+  margin: -40px -48px -60px;
+  width: calc(100% + 96px);
+  background: transparent;
 }
-
-#page-0.active {
-  display: block;
-}
-
-/* Estilização da Capa para bater com a imagem */
 .cover {
   background: linear-gradient(150deg, #0a1f10 0%, #1a4a2e 50%, #0f2d1a 100%);
   min-height: 100vh;
-  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 0 10%; /* Recuo lateral do conteúdo */
+  padding: 80px 10%;
   position: relative;
+  overflow: hidden;
 }
-
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(76,175,116,0.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: 5%;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(76,175,116,0.1) 0%, transparent 65%);
+  pointer-events: none;
+}
 .cover-tag {
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 15px;
+  color: #ffffff;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
 }
-
 .cover h1 {
   font-family: 'Lora', serif;
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 30px;
+  line-height: 1.15;
+  margin-bottom: 20px;
   color: white;
-  max-width: 700px;
-  border-bottom: 4px solid white; /* A linha embaixo do título como na imagem */
-  padding-bottom: 10px;
-  display: inline-block;
+  max-width: 640px;
+  position: relative;
+  z-index: 1;
 }
-
+.cover-divider {
+  width: 72px;
+  height: 3px;
+  background: #ffffff;
+  margin-bottom: 28px;
+  border-radius: 2px;
+  position: relative;
+  z-index: 1;
+}
 .cover-sub {
-  font-size: 18px;
-  color: white;
+  font-size: 19px;
+  color: #ffffff;
   margin-bottom: 40px;
-  font-weight: 400;
-  max-width: 600px;
+  font-weight: 300;
+  max-width: 560px;
   line-height: 1.6;
-  opacity: 0.9;
+  position: relative;
+  z-index: 1;
 }
-
 .cover-meta {
-  font-size: 14px;
-  color: white;
-  line-height: 1.8;
-  margin-bottom: 40px;
+  font-size: 13.5px;
+  color: #ffffff;
+  line-height: 2;
+  position: relative;
+  z-index: 1;
 }
-
-.cover-meta strong {
-  color: white;
-  font-weight: 700;
-  margin-right: 5px;
-}
-
+.cover-meta strong { color: #ffffff; }
 .cover-btn {
+  margin-top: 52px;
   background: var(--green-light);
   color: var(--green-dark);
   border: none;
-  padding: 14px 32px;
-  border-radius: 30px;
+  padding: 16px 36px;
+  border-radius: 40px;
+  font-family: 'Source Sans 3', sans-serif;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s;
+  letter-spacing: 0.3px;
+  position: relative;
+  z-index: 1;
 }
-
 .cover-btn:hover {
   background: white;
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+}
+
+/* ===== CHAPTER PAGES ===== */
+.chapter-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--green-mid);
+  margin-bottom: 14px;
+}
+.chapter-badge-line {
+  width: 32px; height: 2px;
+  background: var(--green-light);
+  border-radius: 1px;
+}
+.page h1 {
+  font-family: 'Lora', serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--green-dark);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.page-subtitle {
+  font-size: 16px;
+  color: var(--text-light);
+  margin-bottom: 36px;
+  font-weight: 400;
+  line-height: 1.55;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+}
+.page h2 {
+  font-family: 'Lora', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--green-dark);
+  margin: 36px 0 14px;
+  line-height: 1.35;
+}
+.page h3 {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green-mid);
+  margin: 28px 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.page h4 {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin: 22px 0 8px;
+}
+.page p {
+  font-size: 16px;
+  line-height: 1.82;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+}
+.page ul, .page ol {
+  margin: 0 0 20px 0;
+  padding-left: 24px;
+}
+.page li {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+.page strong { color: var(--green-dark); font-weight: 600; }
+.page em { color: var(--text-mid); }
+
+/* ===== CALLOUTS ===== */
+.callout {
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.callout-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.callout-body { flex: 1; }
+.callout-title { font-weight: 700; margin-bottom: 4px; font-size: 12px; letter-spacing: 0.6px; text-transform: uppercase; }
+.callout.atencao { background: #fff8e8; border-left: 4px solid var(--amber); }
+.callout.atencao .callout-title { color: #a06010; }
+.callout.dica { background: var(--green-ultra); border-left: 4px solid var(--green-light); }
+.callout.dica .callout-title { color: var(--green-mid); }
+.callout.verde { background: var(--green-ultra); border-left: 4px solid var(--green-light); }
+.callout.contato { background: var(--blue-light); border-left: 4px solid var(--blue); }
+.callout.exemplo { background: #f8f4ff; border-left: 4px solid #7c5cbf; }
+.callout.exemplo .callout-title { color: #5a3d9e; }
+.callout.importante { background: var(--red-light); border-left: 4px solid var(--red); }
+.callout.importante .callout-title { color: var(--red); }
+.callout.dourado { background: #fffbf0; border-left: 4px solid var(--amber); }
+.callout.aviso { background: #fff8e8; border-left: 4px solid var(--amber); }
+
+/* ===== TABLE ===== */
+.table-wrap { overflow-x: auto; margin: 20px 0; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(26,74,46,0.06); }
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th {
+  background: var(--green-dark);
+  color: white;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 13px 18px;
+  text-align: left;
+}
+td { padding: 13px 18px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: var(--green-ultra); }
+
+/* ===== TOC GRID ===== */
+.toc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+.toc-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.22s;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  box-shadow: 0 2px 8px rgba(26,74,46,0.06);
+}
+.toc-card:hover {
+  border-color: var(--green-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26,74,46,0.12);
+}
+.toc-num {
+  font-family: 'Lora', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--green-light);
+  line-height: 1;
+  flex-shrink: 0;
+  min-width: 34px;
+}
+.toc-title { font-weight: 700; font-size: 14px; color: var(--green-dark); margin-bottom: 5px; line-height: 1.3; }
+.toc-desc { font-size: 12px; color: var(--text-light); line-height: 1.45; }
+
+/* ===== FIELD CARDS ===== */
+.field-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin: 24px 0;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(26,74,46,0.07);
+}
+.field-card-header {
+  background: var(--green-dark);
+  color: white;
+  padding: 14px 22px;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.field-card-header .icon { font-size: 18px; }
+.field-card-body { padding: 22px; }
+
+/* ===== HIGHLIGHT BOX ===== */
+.highlight-box {
+  background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 26px 30px;
+  margin: 24px 0;
+  position: relative;
+  overflow: hidden;
+}
+.highlight-box::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+}
+.highlight-box p { color: rgba(255,255,255,0.92); margin: 0; font-size: 16px; line-height: 1.75; }
+.highlight-box strong { color: white; }
+
+/* ===== STEP LIST ===== */
+.step-list { margin: 20px 0; }
+.step-item { display: flex; gap: 18px; margin-bottom: 22px; align-items: flex-start; }
+.step-num {
+  width: 34px; height: 34px;
+  background: var(--green-dark);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px;
+  flex-shrink: 0; margin-top: 1px;
+}
+.step-content { flex: 1; }
+.step-content strong { display: block; font-size: 15px; margin-bottom: 4px; color: var(--green-dark); }
+.step-content p { font-size: 14.5px; margin: 0; color: var(--text-mid); line-height: 1.6; }
+
+/* ===== INFOBOX ===== */
+.infobox {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 24px 0;
+}
+.infobox-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 14px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(26,74,46,0.05);
+}
+.infobox-icon { font-size: 28px; margin-bottom: 10px; }
+.infobox-label { font-size: 11px; color: var(--text-light); margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.infobox-value { font-size: 13.5px; color: var(--green-dark); font-weight: 600; line-height: 1.4; }
+
+/* ===== RULES LIST ===== */
+.rules-list { list-style: none; padding: 0; }
+.rules-list li { padding: 11px 0 11px 32px; border-bottom: 1px solid var(--border); position: relative; font-size: 15.5px; line-height: 1.65; }
+.rules-list li:last-child { border-bottom: none; }
+.rules-list li::before { content: '✓'; position: absolute; left: 0; color: var(--green-mid); font-weight: 700; font-size: 14px; top: 12px; }
+
+/* ===== PILLS ===== */
+.pill { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.pill-green { background: var(--green-pale); color: var(--green-mid); }
+.pill-amber { background: var(--amber-light); color: #a06010; }
+.pill-blue { background: var(--blue-light); color: var(--blue); }
+
+/* ===== PAGE NAVIGATION ===== */
+.page-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  gap: 16px;
+}
+.btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 22px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.22s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary { background: var(--green-dark); color: white; }
+.btn-primary:hover { background: var(--green-mid); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(26,74,46,0.22); }
+.btn-secondary { background: var(--green-ultra); color: var(--green-dark); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--green-pale); }
+.btn-ghost { background: transparent; color: var(--text-light); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--white); color: var(--green-dark); }
+.nav-center { display: flex; align-items: center; gap: 8px; }
+.page-indicator { font-size: 12px; color: var(--text-light); }
+
+/* ===== MISC ===== */
+.section-divider { display: flex; align-items: center; gap: 16px; margin: 32px 0 24px; }
+.section-divider-line { flex: 1; height: 1px; background: var(--border); }
+.section-divider-text { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 2px; white-space: nowrap; }
+
+a { color: var(--green-mid); }
+a:hover { color: var(--green-dark); }
+
+/* ===== RESP BADGE ===== */
+.resp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  border-radius: 20px;
+  padding: 5px 14px;
+  margin-bottom: 18px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+.resp-badge.qualif { background: var(--green-pale); color: var(--green-mid); border: 1px solid var(--border); }
+.resp-badge.leitura { background: var(--amber-light); color: #7a5010; border: 1px solid #f0d080; }
+
+/* ===== PROCESS FLOW ===== */
+.process-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 20px 0;
+  position: relative;
+}
+.process-flow::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 28px;
+  bottom: 28px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--green-light), var(--border));
+}
+.pf-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 14px 0;
+}
+.pf-dot {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 2px var(--green-light);
+}
+.pf-dot.verde { background: var(--green-pale); }
+.pf-dot.dourado { background: var(--amber-light); box-shadow: 0 0 0 2px var(--amber); }
+.pf-body { padding-top: 8px; }
+.pf-body strong { font-weight: 600; font-size: 0.9rem; color: var(--text-dark); }
+.pf-body p { font-size: 0.85rem; color: var(--text-mid); margin: 2px 0 0; }
+
+/* ===== STYLED LIST ===== */
+.styled-list { list-style: none; margin: 12px 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.styled-list li {
+  padding: 10px 14px;
+  background: var(--green-ultra);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 14.5px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  line-height: 1.55;
+}
+.styled-list li::before { content: '→'; color: var(--green-light); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+/* ===== SWOT ===== */
+.swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+.swot-cell { padding: 18px 20px; }
+.swot-cell.forcas { background: var(--green-ultra); }
+.swot-cell.fraquezas { background: #fff5f5; }
+.swot-cell.oportunidades { background: var(--blue-light); }
+.swot-cell.ameacas { background: var(--amber-light); }
+.swot-cell h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
+.swot-cell.forcas h4 { color: var(--green-mid); }
+.swot-cell.fraquezas h4 { color: var(--red); }
+.swot-cell.oportunidades h4 { color: var(--blue); }
+.swot-cell.ameacas h4 { color: #a06010; }
+.swot-cell ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.swot-cell ul li { font-size: 13px; color: var(--text-dark); padding-left: 14px; position: relative; line-height: 1.5; }
+.swot-cell ul li::before { content: '•'; position: absolute; left: 0; }
+
+/* ===== PROMPT BOX ===== */
+.prompt-box {
+  background: #1a2e1e;
+  color: #b8f0c8;
+  border-radius: 10px;
+  padding: 20px 22px;
+  font-family: 'Courier New', monospace;
+  font-size: 12.5px;
+  line-height: 1.8;
+  margin: 16px 0;
+  position: relative;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.prompt-box::before {
+  content: 'PROMPT SUGERIDO';
+  position: absolute;
+  top: 10px; right: 14px;
+  font-size: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  color: var(--green-light);
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+/* ===== CHECKLIST ===== */
+.checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+.checklist li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14.5px;
+  padding: 11px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--green-ultra);
+  color: var(--text-dark);
+}
+.checklist li::before { content: '☐'; color: var(--green-mid); font-size: 1rem; flex-shrink: 0; line-height: 1.4; }
+
+/* ===== MODALITY GROUP ===== */
+.modality-group { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 14px 0; }
+.modality-header {
+  background: var(--green-dark);
+  color: white;
+  padding: 12px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modality-body { padding: 16px 18px; }
+.modality-body p.desc { font-size: 13.5px; color: var(--text-mid); margin-bottom: 12px; }
+.modality-items { display: flex; flex-direction: column; gap: 6px; }
+.modality-item {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 14px; padding: 9px 12px;
+  background: var(--green-ultra); border-radius: 6px;
+}
+.modality-item span.dot { color: var(--green-light); font-weight: 700; flex-shrink: 0; }
+
+/* ===== REG ITEMS ===== */
+.reg-item { border: 1px solid var(--border); border-radius: 10px; margin: 14px 0; overflow: hidden; }
+.reg-item-header {
+  background: var(--green-ultra);
+  padding: 13px 18px;
+  display: flex; gap: 10px; align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+.reg-item-header h4 { font-size: 14px; font-weight: 700; color: var(--green-dark); flex: 1; margin: 0; }
+.lei { font-size: 11px; color: var(--text-light); background: var(--white); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+.reg-item-body { padding: 16px 18px; font-size: 14.5px; line-height: 1.7; }
+.reg-item-body .contact { font-size: 13px; color: var(--text-mid); margin-top: 10px; display: flex; gap: 6px; align-items: center; }
+
+/* ===== LINK GRID ===== */
+.link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.link-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  text-decoration: none;
+  transition: all 0.18s;
+  background: var(--white);
+  display: block;
+}
+.link-card:hover { border-color: var(--green-light); background: var(--green-ultra); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,74,46,0.1); }
+.link-card .lc-topic { font-size: 11px; color: var(--text-light); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.link-card .lc-name { font-size: 14px; font-weight: 700; color: var(--green-dark); }
+.link-card .lc-url { font-size: 11.5px; color: var(--green-mid); margin-top: 3px; word-break: break-all; }
+
+/* ===== COMPARISON ===== */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(26,74,46,0.06);
+}
+.comp-col { padding: 22px; }
+.comp-col.before { background: #fff5f5; border-right: 1px solid var(--border); }
+.comp-col.after { background: var(--green-ultra); }
+.comp-label {
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.comp-label.b { color: var(--red); }
+.comp-label.a { color: var(--green-mid); }
+.comp-item { font-size: 14px; color: var(--text-dark); padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.06); line-height: 1.55; }
+.comp-item:last-child { border-bottom: none; }
+
+/* ===== SECTION LABEL ===== */
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--green-mid);
+  margin: 32px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--green-pale);
+}
+
+/* ===== TAG BADGE ===== */
+.tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  background: var(--green-pale);
+  color: var(--green-mid);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-left: 6px;
+  vertical-align: middle;
 }
 
 </style>
@@ -119,333 +825,910 @@
 <body>
 <div class="app">
 
+  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-brand">
-      <span class="sidebar-brand-icon">📋</span>
+      <span class="sidebar-brand-icon">📙</span>
       <div class="sidebar-brand-name">Manual do Qualificador</div>
       <div class="sidebar-brand-sub">Embrapa Milho e Sorgo</div>
     </div>
     <nav class="sidebar-nav" id="sidebarNav"></nav>
     <div class="sidebar-footer">
       <div class="progress-label">Progresso</div>
-      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
       <div class="progress-text" id="progressText">Página 1 de 10</div>
     </div>
   </aside>
 
+  <!-- MAIN -->
   <main class="main" id="mainContent">
-    
-    <!-- PAG 0: CAPA (IGUAL AO ANEXO) -->
-    <section class="page active" id="page-0">
-      <div class="cover">
-        <div class="cover-tag">Embrapa Milho e Sorgo · 2026</div>
-        <h1>Manual Extra de Apoio ao Qualificador</h1>
-        <div class="cover-divider"></div>
-        <div class="cover-sub">Guia prático para análise mercadológica, regulatória e de parcerias no processo de qualificação de ativos tecnológicos</div>
-        <div class="cover-meta">
-          <strong>Público-alvo:</strong> Agentes de TT e Qualificadores de Ativos<br>
-          <strong>Versão:</strong> Maio de 2026 (1.0) · Modelo integrado<br>
-          <strong>Unidade:</strong> Embrapa Milho e Sorgo · Sete Lagoas/MG
-        </div>
-        <button class="cover-btn" onclick="goTo(1)">Começar a leitura →</button>
-      </div>
-    </section>
 
-    <!-- PAG 1: SUMARIO -->
-    <section class="page" id="page-1">
-      <div class="chapter-badge"><div class="chapter-badge-line"></div>Índice</div>
-      <h1>Sumário</h1>
-      <p class="page-subtitle">Navegue pelos capítulos clicando nos cards abaixo.</p>
-      <div class="toc-grid">
-        <div class="toc-card" onclick="goTo(2)"><div class="toc-num">1</div><div><div class="toc-title">Introdução</div><div class="toc-desc">O papel do qualificador e os objetivos.</div></div></div>
-        <div class="toc-card" onclick="goTo(3)"><div class="toc-num">2</div><div><div class="toc-title">O Processo</div><div class="toc-desc">Fluxo completo da qualificação.</div></div></div>
-        <div class="toc-card" onclick="goTo(4)"><div class="toc-num">3</div><div><div class="toc-title">Uso da Planilha</div><div class="toc-desc">Regras de edição no Google Sheets.</div></div></div>
-        <div class="toc-card" onclick="goTo(5)"><div class="toc-num">4</div><div><div class="toc-title">Guia de Leitura</div><div class="toc-desc">Analisando o que o pesquisador escreveu.</div></div></div>
-        <div class="toc-card" onclick="goTo(6)"><div class="toc-num">5</div><div><div class="toc-title">Caracterização Mercadológica</div><div class="toc-desc">Mercado, Concorrência e Públicos.</div></div></div>
-        <div class="toc-card" onclick="goTo(7)"><div class="toc-num">6</div><div><div class="toc-title">SWOT e Estratégia</div><div class="toc-desc">Análise SWOT e modelos de negócio.</div></div></div>
-        <div class="toc-card" onclick="goTo(8)"><div class="toc-num">7</div><div><div class="toc-title">Parcerias e Regulatório</div><div class="toc-desc">Contratos, PI e leis específicas.</div></div></div>
-        <div class="toc-card" onclick="goTo(9)"><div class="toc-num">8</div><div><div class="toc-title">Finalização</div><div class="toc-desc">Fluxo de envio e validação final.</div></div></div>
-      </div>
-    </section>
+<!-- ══════════════════════ CAPA ══════════════════════ -->
+<section class="page active" id="page-0">
+<div class="cover">
+  <div class="cover-tag">Embrapa Milho e Sorgo · 2026</div>
+  <h1 style="color: white; font-size: 48px;">Manual do Qualificador</h1>
+  <div class="cover-divider"></div>
+  <div class="cover-sub">Guia prático para análise mercadológica, regulatória e de parcerias no processo de qualificação de ativos tecnológicos</div>
+  <div class="cover-meta">
+    <strong style="color: white; font-size: 14px; font-weight: bold;">Público-alvo:</strong> Agentes de Transferência de Tecnologia (TT) e qualificadores<br>
+    <strong style="color: white; font-size: 14px; font-weight: bold;">Versão:</strong> Maio de 2026 (1.0) · Modelo integrado<br>
+    <strong style="color: white; font-size: 14px; font-weight: bold;">Unidade:</strong> Embrapa Milho e Sorgo · Sete Lagoas/MG
+  </div>
+  <button class="cover-btn" onclick="goTo(1)">Começar a leitura →</button>
+</div>
+</section>
 
-    <!-- PAG 2: INTRODUÇÃO -->
-    <section class="page" id="page-2">
-      <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 1</div>
-      <h1>Introdução</h1>
-      <p class="page-subtitle">O papel vital da qualificação para a transferência de tecnologia.</p>
-      
-      <div class="highlight-box">
-        <p>A qualificação de ativos é o processo pelo qual a Embrapa formaliza e avalia o potencial de transferência de tecnologias. É aqui que um resultado de pesquisa passa a ser reconhecido institucionalmente como um <strong>ativo tecnológico</strong>.</p>
-      </div>
+<!-- ══════════════════════ SUMÁRIO ══════════════════════ -->
+<section class="page" id="page-1">
+<div class="chapter-badge"><div class="chapter-badge-line"></div>Índice</div>
+<h1>Sumário</h1>
+<p class="page-subtitle">Navegue pelos capítulos clicando nos cards abaixo ou use os botões de navegação no rodapé.</p>
+<div class="toc-grid">
+  <div class="toc-card" onclick="goTo(2)">
+    <div class="toc-num">1</div>
+    <div class="toc-info">
+      <div class="toc-title">Introdução</div>
+      <div class="toc-desc">O que é qualificação, o papel do qualificador e como se preparar</div>
+    </div>
+  </div>
+  <div class="toc-card" onclick="goTo(3)">
+    <div class="toc-num">2</div>
+    <div class="toc-info">
+      <div class="toc-title">Processo de Qualificação</div>
+      <div class="toc-desc">Fluxo completo e os atores envolvidos</div>
+    </div>
+  </div>
+  <div class="toc-card" onclick="goTo(4)">
+    <div class="toc-num">3</div>
+    <div class="toc-info">
+      <div class="toc-title">Como Usar a Planilha</div>
+      <div class="toc-desc">Regras, campos editáveis e dicas práticas</div>
+    </div>
+  </div>
+  <div class="toc-card" onclick="goTo(5)">
+    <div class="toc-num">4a</div>
+    <div class="toc-info">
+      <div class="toc-title">Guia por Aba — Descrição e Caracterização</div>
+      <div class="toc-desc">Abas de Descrição Inicial e Caracterização do Ativo (leitura)</div>
+    </div>
+  </div>
+  <div class="toc-card" onclick="goTo(6)">
+    <div class="toc-num">4b</div>
+    <div class="toc-info">
+      <div class="toc-title">Guia por Aba — Mercadológica</div>
+      <div class="toc-desc">Concorrência, SWOT, modelo de negócio e validação</div>
+    </div>
+  </div>
+  <div class="toc-card" onclick="goTo(7)">
+    <div class="toc-num">4c</div>
+    <div class="toc-info">
+      <div class="toc-title">Guia por Aba — Parcerias e Regulatório</div>
+      <div class="toc-desc">Parcerias externas, aspectos legais e PI</div>
+    </div>
+  </div>
+  <div class="toc-card" onclick="goTo(8)">
+    <div class="toc-num">5</div>
+    <div class="toc-info">
+      <div class="toc-title">Fluxo de Finalização e Envio</div>
+      <div class="toc-desc">Como concluir, notificar e encaminhar</div>
+    </div>
+  </div>
+  <div class="toc-card" onclick="goTo(9)">
+    <div class="toc-num">6</div>
+    <div class="toc-info">
+      <div class="toc-title">Contatos e Suporte</div>
+      <div class="toc-desc">Quem acionar para cada tipo de dúvida</div>
+    </div>
+  </div>
+</div>
+<div class="page-nav">
+  <button class="btn btn-secondary" onclick="goTo(0)">← Capa</button>
+  <button class="btn btn-primary" onclick="goTo(2)">Capítulo 1 →</button>
+</div>
+</section>
 
-      <div class="field-card">
-        <div class="field-card-header">Sua missão como Qualificador</div>
-        <div class="field-card-body">
-          <p>Você é o responsável por complementar as informações técnicas com uma visão de mercado e conformidade legal. Suas abas são:</p>
-          <ul>
-            <li><strong>Descrição Inicial:</strong> Criação do nome do ativo.</li>
-            <li><strong>Caracterização Mercadológica:</strong> SWOT, concorrência e modelo de negócio.</li>
-            <li><strong>Parcerias e Regulatório:</strong> PI e aspectos legais.</li>
-          </ul>
-        </div>
-      </div>
+<!-- ══════════════════════ 1. INTRODUÇÃO ══════════════════════ -->
+<section class="page" id="page-2">
+<div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 1</div>
+<h1>Introdução</h1>
+<p class="page-subtitle">O que é qualificação de ativos, o papel do qualificador e como se preparar para iniciar</p>
 
-      <div class="page-nav">
-        <button class="btn btn-secondary" onclick="goTo(1)">← Voltar</button>
-        <button class="btn btn-primary" onclick="goTo(3)">Capítulo 2 →</button>
-      </div>
-    </section>
+<h2>O que é a qualificação de ativos?</h2>
+<p>A qualificação de ativos é o processo pelo qual a Embrapa formaliza, organiza e avalia o potencial de transferência de tecnologias desenvolvidas por suas unidades. É por meio dela que um resultado de pesquisa passa a ser reconhecido como um <strong>ativo tecnológico</strong> com identidade, posicionamento e estratégia de mercado definidos, ficando registrado no <strong>Gestec</strong>, o sistema institucional de gestão de portfólio da Embrapa.</p>
+<p>Uma qualificação bem feita é o primeiro passo para que o ativo chegue ao produtor, à indústria ou à sociedade de forma estruturada, aumentando as chances de adoção e impacto real na cadeia produtiva.</p>
 
-    <!-- PARTE 3: PROCESSO -->
-    <section class="page" id="page-3">
-      <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 2</div>
-      <h1>O Processo de Qualificação</h1>
-      <p class="page-subtitle">O caminho do ativo do laboratório ao Gestec.</p>
-      
-      <div class="field-card">
-        <div class="field-card-header">Fluxo de Trabalho</div>
-        <div class="field-card-body">
-          <p>O processo envolve 4 atores principais:</p>
-          <ol>
-            <li><strong>CTI:</strong> Aprova o resultado de pesquisa alcançado.</li>
-            <li><strong>Gestor de Ativos:</strong> Configura a planilha e faz a revisão final.</li>
-            <li><strong>Pesquisador:</strong> Preenche a caracterização técnica do ativo.</li>
-            <li><strong>Qualificador (Você):</strong> Conduz a análise estratégica e de mercado.</li>
-          </ol>
-        </div>
-      </div>
+<h2>Qual é o papel do qualificador?</h2>
+<p>O qualificador é o agente de Transferência de Tecnologia (TT) responsável por analisar o ativo sob a perspectiva mercadológica e regulatória, complementando as informações técnicas fornecidas pelo pesquisador. Sua atuação é essencial para transformar o conhecimento científico em uma proposta de valor clara para o mercado.</p>
+<p>No formulário de qualificação, o qualificador é responsável pelo preenchimento de três abas:</p>
+<ul class="styled-list">
+  <li><strong>Descrição Inicial</strong> — criação do nome do ativo, caso ainda não esteja criado</li>
+  <li><strong>Caracterização Mercadológica</strong> — análise de mercado, concorrência, SWOT e modelo de negócio</li>
+  <li><strong>Parcerias Envolvidas e Regulatório</strong> — parceiros externos, aspectos legais e PI</li>
+</ul>
+<div class="callout verde">
+  <div class="callout-icon">ℹ️</div>
+  <div class="callout-body">A aba <strong>Caracterização do Ativo</strong> é de responsabilidade do pesquisador. Ainda assim, o qualificador pode e deve apoiá-lo em caso de dúvidas, orientando sobre como preencher os campos corretamente.</div>
+</div>
 
-      <div class="page-nav">
-        <button class="btn btn-secondary" onclick="goTo(2)">← Anterior</button>
-        <button class="btn btn-primary" onclick="goTo(4)">Capítulo 3 →</button>
-      </div>
-    </section>
+<h2>Como se preparar antes de qualificar</h2>
+<div class="step-list">
+  <div class="step-item">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <strong>Conversar com o pesquisador</strong>
+      <p>Sempre que possível, agende uma conversa com o responsável pelo ativo antes de iniciar a qualificação. Esse diálogo permite entender melhor o ativo, suas potencialidades e limitações, e torna o preenchimento muito mais preciso e útil.</p>
+    </div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <strong>Ler atentamente a aba de Caracterização do Ativo</strong>
+      <p>O que o pesquisador preencheu é a base de tudo. As informações sobre o que é o ativo, os problemas que resolve, o estágio de desenvolvimento e a validação técnica são fundamentais para guiar a análise mercadológica e regulatória que o qualificador irá realizar.</p>
+    </div>
+  </div>
+</div>
 
-    <!-- PARTE 4: USO DA PLANILHA -->
-    <section class="page" id="page-4">
-        <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 3</div>
-        <h1>Uso da Planilha</h1>
-        <p class="page-subtitle">Regras de colaboração em tempo real.</p>
+<h2>Sobre este manual</h2>
+<p>Este manual foi elaborado especificamente para os qualificadores da <strong>Embrapa Milho e Sorgo</strong> e complementa as orientações já presentes na própria planilha e nos documentos de apoio disponibilizados pela Sede. Aqui você encontrará:</p>
+<ul class="styled-list">
+  <li>Orientações detalhadas campo a campo</li>
+  <li>Exemplos de bom preenchimento com contexto de milho e sorgo</li>
+  <li>Dicas específicas da unidade</li>
+  <li>Referências e fontes úteis para análise de mercado e concorrência</li>
+</ul>
 
-        <div class="callout importante">
-            <span class="callout-title">⚠️ Regra de Ouro</span>
-            <p><strong>Não baixe a planilha para Excel.</strong> O preenchimento deve ser feito exclusivamente no Google Sheets para garantir que todos vejam as atualizações e os comentários.</p>
-        </div>
+<div class="page-nav">
+  <button class="btn btn-secondary" onclick="goTo(1)">← Sumário</button>
+  <div class="nav-center"><span class="page-indicator">Capítulo 1 de 6</span></div>
+  <button class="btn btn-primary" onclick="goTo(3)">Próximo →</button>
+</div>
+</section>
 
-        <div class="field-card">
-            <div class="field-card-header">Dicas de Edição</div>
-            <div class="field-card-body">
-                <ul>
-                    <li><strong>Campos Brancos:</strong> Texto livre.</li>
-                    <li><strong>Campos Cinzas:</strong> Listas suspensas (seleção).</li>
-                    <li><strong>Quebra de linha:</strong> Use <strong>Alt + Enter</strong>.</li>
-                    <li><strong>Comunicação:</strong> Use o botão de comentários para tirar dúvidas com o pesquisador.</li>
-                </ul>
-            </div>
-        </div>
+<!-- ══════════════════════ 2. PROCESSO ══════════════════════ -->
+<section class="page" id="page-3">
+<div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 2</div>
+<h1>Processo de Qualificação</h1>
+<p class="page-subtitle">Fluxo completo e os quatro atores principais envolvidos</p>
 
-        <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(3)">← Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(5)">Capítulo 4 →</button>
-        </div>
-    </section>
+<p>O processo de qualificação envolve quatro atores principais: <strong>CTI</strong>, <strong>Gestor de Ativos da UD</strong>, <strong>Responsável Técnico do Ativo</strong> e o <strong>Qualificador</strong>. Veja como cada etapa se conecta:</p>
 
-    <!-- PAG 3: PROCESSO -->
-    <section class="page" id="page-3">
-      <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 2</div>
-      <h1>O Processo de Qualificação</h1>
-      <p class="page-subtitle">O caminho do ativo do laboratório ao Gestec.</p>
-      
-      <div class="field-card">
-        <div class="field-card-header">Fluxo de Trabalho</div>
-        <div class="field-card-body">
-          <p>O processo envolve 4 atores principais:</p>
-          <ol>
-            <li><strong>CTI:</strong> Aprova o resultado de pesquisa alcançado.</li>
-            <li><strong>Gestor de Ativos:</strong> Configura a planilha e faz a revisão final.</li>
-            <li><strong>Pesquisador:</strong> Preenche a caracterização técnica do ativo.</li>
-            <li><strong>Qualificador (Você):</strong> Conduz a análise estratégica e de mercado.</li>
-          </ol>
-        </div>
-      </div>
+<div class="process-flow">
+  <div class="pf-item">
+    <div class="pf-dot verde">🏛️</div>
+    <div class="pf-body">
+      <strong>CTI aprova resultado alcançado</strong>
+      <p>O Comitê Técnico Interno valida e aprova o resultado de pesquisa que dará origem ao ativo a ser qualificado.</p>
+    </div>
+  </div>
+  <div class="pf-item">
+    <div class="pf-dot verde">📋</div>
+    <div class="pf-body">
+      <strong>Gestor de Ativos cria e configura a planilha</strong>
+      <p>O Gestor de Ativos da UD preenche a aba Descrição Inicial com os dados básicos do ativo e envia a planilha para pesquisador e qualificador.</p>
+    </div>
+  </div>
+  <div class="pf-item">
+    <div class="pf-dot verde">🔬</div>
+    <div class="pf-body">
+      <strong>Pesquisador preenche Caracterização do Ativo</strong>
+      <p>O responsável técnico insere as informações sobre o ativo: o que é, problemas que resolve, estágio de maturidade e dados de validação técnica.</p>
+    </div>
+  </div>
+  <div class="pf-item">
+    <div class="pf-dot dourado">⭐</div>
+    <div class="pf-body">
+      <strong>Qualificador analisa e preenche suas abas</strong>
+      <p>Com base na leitura da Caracterização do Ativo e na conversa com o pesquisador, o qualificador preenche a Caracterização Mercadológica e Parcerias/Regulatório — e, se necessário, cria o nome do ativo.</p>
+    </div>
+  </div>
+  <div class="pf-item">
+    <div class="pf-dot verde">✅</div>
+    <div class="pf-body">
+      <strong>Gestor de Ativos revisa e consolida</strong>
+      <p>Após notificação dos dois responsáveis, o gestor revisa o preenchimento, exporta o PDF comprobatório e insere as informações no Gestec.</p>
+    </div>
+  </div>
+</div>
 
-      <div class="page-nav">
-        <button class="btn btn-secondary" onclick="goTo(2)">← Anterior</button>
-        <button class="btn btn-primary" onclick="goTo(4)">Capítulo 3 →</button>
-      </div>
-    </section>
+<div class="page-nav">
+  <button class="btn btn-secondary" onclick="goTo(2)">← Anterior</button>
+  <div class="nav-center"><span class="page-indicator">Capítulo 2 de 6</span></div>
+  <button class="btn btn-primary" onclick="goTo(4)">Próximo →</button>
+</div>
+</section>
 
-    <!-- PAG 4: USO DA PLANILHA -->
-    <section class="page" id="page-4">
-        <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 3</div>
-        <h1>Uso da Planilha</h1>
-        <p class="page-subtitle">Regras de colaboração em tempo real.</p>
+<!-- ══════════════════════ 3. COMO USAR ══════════════════════ -->
+<section class="page" id="page-4">
+<div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 3</div>
+<h1>Como Usar a Planilha</h1>
+<p class="page-subtitle">Regras essenciais para garantir um preenchimento correto e colaborativo</p>
 
-        <div class="callout importante">
-            <span class="callout-title">⚠️ Regra de Ouro</span>
-            <p><strong>Não baixe a planilha para Excel.</strong> O preenchimento deve ser feito exclusivamente no Google Sheets para garantir que todos vejam as atualizações e os comentários.</p>
-        </div>
+<p>A planilha é protegida para garantir a integridade das informações — cada responsável edita apenas os campos atribuídos à sua função.</p>
 
-        <div class="field-card">
-            <div class="field-card-header">Dicas de Edição</div>
-            <div class="field-card-body">
-                <ul>
-                    <li><strong>Campos Brancos:</strong> Texto livre.</li>
-                    <li><strong>Campos Cinzas:</strong> Listas suspensas (seleção).</li>
-                    <li><strong>Quebra de linha:</strong> Use <strong>Alt + Enter</strong>.</li>
-                    <li><strong>Comunicação:</strong> Use o botão de comentários para tirar dúvidas com o pesquisador.</li>
-                </ul>
-            </div>
-        </div>
+<div class="callout importante">
+  <div class="callout-icon">⚠️</div>
+  <div class="callout-body">
+    <div class="callout-title">Atenção</div>
+    <strong>Não baixe a planilha</strong> para editá-la em ferramentas paralelas como Microsoft Excel. Edite-a pelo <strong>Google Sheets</strong> para que seja colaborativa e atualizada em tempo real.
+  </div>
+</div>
 
-        <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(3)">← Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(5)">Capítulo 4 →</button>
-        </div>
-    </section>
+<h2>Regras de preenchimento</h2>
+<ul class="rules-list">
+  <li>Campos editáveis têm <strong>fundo branco</strong> (texto livre) ou <strong>cinza claro</strong> (seleção em lista suspensa)</li>
+  <li>Para inserir uma nova linha dentro de um campo de texto, use <strong>Alt + Enter</strong></li>
+  <li><strong>A coluna A</strong> de cada aba não deve ser editada em hipótese alguma</li>
+  <li><strong>Não exclua nem insira</strong> linhas ou colunas na planilha</li>
+  <li><strong>Todos os campos</strong> das abas sob sua responsabilidade devem ser preenchidos. Se por alguma razão um campo não puder ser preenchido, utilize o próprio espaço para justificar</li>
+  <li>As alterações são <strong>salvas automaticamente</strong> ao fechar o arquivo — não é necessário nenhum procedimento adicional</li>
+</ul>
 
-    <!-- PAG 5: GUIA DE LEITURA -->
-    <section class="page" id="page-5">
-        <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 4</div>
-        <h1>Guia de Leitura</h1>
-        <p class="page-subtitle">Analisando as informações do Pesquisador.</p>
+<div class="page-nav">
+  <button class="btn btn-secondary" onclick="goTo(3)">← Anterior</button>
+  <div class="nav-center"><span class="page-indicator">Capítulo 3 de 6</span></div>
+  <button class="btn btn-primary" onclick="goTo(5)">Próximo →</button>
+</div>
+</section>
 
-        <p>Antes de iniciar sua parte, você deve ler atentamente a aba <strong>Caracterização do Ativo</strong>. Dali sairão os insumos para sua análise mercadológica.</p>
+<!-- ══════════════════════ 4a. DESCRIÇÃO + CARACTERIZAÇÃO ══════════════════════ -->
+<section class="page" id="page-5">
+<div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 4 · Parte A</div>
+<h1>Guia por Aba</h1>
+<p class="page-subtitle">Aba de Descrição Inicial e Aba de Caracterização do Ativo — o que ler e como interagir</p>
 
-        <div class="table-wrap">
-            <table>
-                <tr><th>Campo do Pesquisador</th><th>Insight para o Qualificador</th></tr>
-                <tr><td>Problemas que resolve</td><td>Define as "dores" que você usará para a SWOT.</td></tr>
-                <tr><td>Inovação</td><td>É o seu "ponto de venda" na análise de concorrência.</td></tr>
-                <tr><td>Validação Técnica</td><td>Informa o estágio real (TRL) e maturidade.</td></tr>
-            </table>
-        </div>
+<!-- 4.1 -->
+<div class="field-card">
+  <div class="field-card-header"><span class="icon">📋</span> 4.1 Aba Descrição Inicial <span style="font-size:11px;font-weight:400;opacity:0.8;margin-left:4px;">Leitura obrigatória</span></div>
+  <div class="field-card-body">
+    <span class="resp-badge leitura">📖 Preenchida pelo Gestor de Ativos — leitura obrigatória pelo qualificador</span>
+    <p>Sua função nesta aba é principalmente <strong>ler e compreender</strong> — o gestor de ativos já terá preenchido a maior parte antes de enviar a planilha. A exceção é o <strong>Nome do ativo</strong>, que pode precisar ser criado pelo qualificador quando se tratar de uma primeira qualificação.</p>
 
-        <div class="callout dica">
-            <span class="callout-title">💡 Dica</span>
-            <p>Se a descrição técnica estiver confusa, não tente adivinhar. Marque o pesquisador em um comentário na célula e peça esclarecimentos.</p>
-        </div>
+    <h4>O que ler e o que observar</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Campo</th><th>O que observar</th></tr></thead>
+        <tbody>
+          <tr><td>Tipo e Subtipo do ativo</td><td>Define o enquadramento do ativo — cultivar convencional, transgênica, bioinsumo, tecnologia de manejo etc. Orienta toda a análise regulatória e de PI.</td></tr>
+          <tr><td>TRL/MRL prevista para 2026</td><td>Indica o estágio de maturidade esperado — quanto mais avançado, mais urgente é a definição de modelo de negócio e estratégia de mercado.</td></tr>
+          <tr><td>Código/Título do Projeto no Ideare</td><td>Permite buscar informações adicionais no SEG/Ideare, quando necessário.</td></tr>
+          <tr><td>Responsável pelo resultado</td><td>É o pesquisador que você deverá contatar para tirar dúvidas e apoiar no preenchimento.</td></tr>
+          <tr><td>Descrição do resultado no Ideare</td><td>Leia com atenção — mas lembre-se que essa descrição é do resultado de pesquisa, não do ativo em si. Serve como referência de contexto técnico.</td></tr>
+          <tr><td>CTR para a TRL/MRL prevista</td><td>Os coeficientes técnicos de referência previstos orientam o que o ativo precisa demonstrar para avançar — útil para entender o posicionamento competitivo.</td></tr>
+          <tr><td>É evolução de ativo já qualificado?</td><td>Se sim, busque a qualificação anterior no Gestec para tomar como base e complementar com o que mudou (solicite ao Gestor de Ativos, se necessário).</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-        <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(4)">← Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(6)">Capítulo 5 →</button>
-        </div>
-    </section>
+    <h4>Quando o qualificador precisa criar o Nome do ativo</h4>
+    <p>Se for a primeira qualificação do ativo, o nome ainda não estará preenchido — essa será sua responsabilidade. Princípios gerais:</p>
+    <ul class="styled-list">
+      <li>O nome deve refletir o que o ativo é, com <strong>linguagem clara e acessível</strong>, inclusive para leigos.</li>
+      <li>Não deve ser a descrição do resultado do projeto no Ideare nem conter jargão excessivamente técnico.</li>
+      <li>Siglas devem vir sempre acompanhadas de descrição — ex.: <em>BiomaPhos - Inoculante biológico solubilizador de fosfato para milho.</em></li>
+      <li>Verifique se o nome escolhido <strong>não conflita com marcas registradas</strong> ou denominações de cultivares já protegidas.</li>
+    </ul>
 
-    <!-- PAG 6: CARACTERIZAÇÃO MERCADOLÓGICA -->
-    <section class="page" id="page-6">
-        <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 5</div>
-        <h1>Caracterização Mercadológica</h1>
-        <p class="page-subtitle">Definindo o posicionamento competitivo.</p>
+    <h4>Para cultivares, siga o padrão:</h4>
+    <p style="font-style:italic; color:var(--text-mid); margin-bottom: 12px;">Cruzamento (variedade, tipo de híbrido ou linhagem) + cultura + finalidade + BRS/código experimental</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Exemplo</th><th>Estrutura</th></tr></thead>
+        <tbody>
+          <tr><td>Variedade de milho biofortificado BRS XXXX</td><td>Variedade + cultura + finalidade + BRS</td></tr>
+          <tr><td>Híbrido triplo de milho silageiro BRS YYYY</td><td>Tipo de híbrido + cultura + finalidade + BRS</td></tr>
+          <tr><td>Híbrido duplo de sorgo granífero BRS LLLL</td><td>Tipo de híbrido + cultura + finalidade + BRS</td></tr>
+          <tr><td>Variedade de sorgo energia BRS MMMM</td><td>Variedade + cultura + finalidade + BRS</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout atencao">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body"><strong>Para TRL menor que 7:</strong> avalie com o pesquisador se já há um código experimental individual selecionado entre as progênies em teste. Se houver apenas um ativo já selecionado nessa TRL, use o padrão: <em>nome do cruzamento + código experimental</em>.</div>
+    </div>
+  </div>
+</div>
 
-        <div class="field-card">
-            <div class="field-card-header">Análise de Concorrência</div>
-            <div class="field-card-body">
-                <p>Identifique quem compete com a tecnologia da Embrapa. <strong>Pergunta-chave:</strong> O que o produtor usa hoje para resolver esse problema?</p>
-                <div class="prompt-box">"Atue como um especialista em mercado agropecuário. Mapeie concorrentes diretos e indiretos para:
-- Cultura: [Inserir]
-- Problema: [Inserir]
-- Diferencial: [Inserir]"</div>
-            </div>
-        </div>
+<!-- 4.2 -->
+<div class="field-card">
+  <div class="field-card-header"><span class="icon">🔬</span> 4.2 Aba Caracterização do Ativo <span style="font-size:11px;font-weight:400;opacity:0.8;margin-left:4px;">Leitura obrigatória</span></div>
+  <div class="field-card-body">
+    <span class="resp-badge leitura">📖 Preenchida pelo Pesquisador — leitura obrigatória para o qualificador</span>
+    <div class="callout verde">
+      <div class="callout-icon">ℹ️</div>
+      <div class="callout-body"><strong>Sua função nesta aba não é preencher — é compreender.</strong> A Caracterização do Ativo é a principal fonte de informação para toda a análise mercadológica e regulatória que você irá realizar nas abas seguintes. Leia com atenção antes de qualificar qualquer outro campo.</div>
+    </div>
 
-        <div class="field-card">
-            <div class="field-card-header">Público-alvo e Cadeias</div>
-            <div class="field-card-body">
-                <p>Seja específico. Em vez de apenas "Produtor Rural", utilize "Produtor de médio nível tecnológico no Cerrado".</p>
-            </div>
-        </div>
+    <h4>Como interagir com o pesquisador nesta aba</h4>
+    <p>A planilha permite <strong>inserir comentários diretamente nas células</strong> e marcar o pesquisador para que ele seja notificado. Use esse recurso sempre que:</p>
+    <ul class="styled-list">
+      <li>Um campo estiver incompleto ou pouco claro</li>
+      <li>Você precisar de mais detalhes técnicos para avançar na análise de mercado</li>
+      <li>Quiser sinalizar inconsistências entre campos</li>
+      <li>Tirar dúvidas sobre o conteúdo inserido</li>
+    </ul>
+    <div class="callout dica">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">Sempre que possível, <strong>complemente a leitura da aba com uma conversa direta com o pesquisador</strong> — uma entrevista rápida pode revelar informações valiosas que não estão explicitadas no formulário, como percepções sobre o mercado, limitações conhecidas do ativo ou contatos estratégicos já mapeados pelo próprio pesquisador.</div>
+    </div>
 
-        <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(5)">← Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(7)">Capítulo 6 →</button>
-        </div>
-    </section>
+    <h4>O que ler e quais insights extrair — Bloco 1: Caracterização do Ativo</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Campo</th><th>Insights para o qualificador</th></tr></thead>
+        <tbody>
+          <tr><td>O que é o ativo? / Qual sua principal aplicação?</td><td>Busque entender do que se trata o ativo e qual possível aplicação no mercado. Ajuda a definir o público-alvo principal, as cadeias produtivas envolvidas e pode orientar a forma de apresentação do ativo (semente, formulação líquida, pó, software etc.)</td></tr>
+          <tr><td>Quais problemas o ativo resolve?</td><td>Busque compreender as dores do principal público-alvo do ativo. As informações aqui podem ajudar na análise SWOT também.</td></tr>
+          <tr><td>O que o ativo oferece de inovador?</td><td>Busque entender como o ativo pode se destacar no mercado e pensar nas suas principais forças. Crucial para análise SWOT e de concorrência.</td></tr>
+          <tr><td>Existem outros usos para o ativo?</td><td>Busque entender se o pesquisador mapeou aplicações alternativas em outras culturas, espécies ou indústrias. Ajuda a sinalizar <strong>novos mercados potenciais</strong> e players estratégicos para parcerias futuras.</td></tr>
+          <tr><td>Quais soluções existentes resolvem o mesmo problema?</td><td>O pesquisador indicou concorrentes? Use como ponto de partida para a análise de concorrência — o pesquisador frequentemente conhece as testemunhas dos ensaios com bom nível de detalhe técnico.</td></tr>
+          <tr><td>Resultados de outros projetos / outras Unidades?</td><td>Fundamental para entender <strong>co-titularidade de PI</strong>, impacto no portfólio interno da Embrapa e possível concorrência ou complementaridade com ativos já existentes.</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-    <!-- PAG 7: SWOT E MODELO -->
-    <section class="page" id="page-7">
-        <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 6</div>
-        <h1>SWOT e Estratégia</h1>
-        <p class="page-subtitle">Transformando dados em estratégia de transferência.</p>
+    <h4>Bloco 2 — Alcance de Resultado</h4>
+    <p style="font-style:italic; color:var(--text-mid); margin-bottom: 12px;">Este bloco costuma ser preenchido pelo pesquisador ao final do processo. Acompanhe o preenchimento e retorne a ele antes de finalizar suas abas.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Campo</th><th>Insights para o qualificador</th></tr></thead>
+        <tbody>
+          <tr><td>Metodologia</td><td>Ajuda a entender a robustez da validação e o estágio real de maturidade do ativo.</td></tr>
+          <tr><td>Onde e como foi validado tecnicamente?</td><td>Em quais regiões, condições e com quais parceiros? Orienta o território de recomendação, a forma de apresentação e potenciais parceiros de TT.</td></tr>
+          <tr><td>Onde e como foi validado para o mercado?</td><td>Houve validação com usuários finais, empresas ou cooperativas? Indica o grau de prontidão mercadológica e possíveis licenciados já identificados.</td></tr>
+          <tr><td>CTR e CTA</td><td>Entender se os coeficientes de referência foram atingidos ou superados sustenta o argumento de <strong>diferencial competitivo</strong> e orienta o posicionamento frente aos concorrentes.</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-        <div class="field-card">
-            <div class="field-card-header">Matriz SWOT</div>
-            <div class="field-card-body">
-                <p>Consolide Forças, Fraquezas, Oportunidades e Ameaças. Use as informações de inovação do pesquisador como base para as Forças.</p>
-            </div>
-        </div>
+    <h4>Checklist rápido antes de avançar para suas abas de edição</h4>
+    <ul class="checklist">
+      <li>Sei o que é o ativo e como ele será entregue ao usuário final</li>
+      <li>Entendo qual problema ele resolve e para qual cadeia produtiva</li>
+      <li>Conheço ao menos um diferencial técnico claro em relação às soluções existentes</li>
+      <li>Identifiquei o público-alvo principal e possíveis usos alternativos</li>
+      <li>Tenho uma lista inicial de concorrentes diretos e indiretos para aprofundar</li>
+      <li>Sei se há outras UDs ou projetos envolvidos que impactam PI ou portfólio</li>
+      <li>Li os resultados de validação técnica e sei em qual TRL/MRL o ativo se encontra</li>
+    </ul>
+    <div class="callout atencao">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body">Se algum ponto estiver em aberto, <strong>use os comentários da planilha ou agende uma conversa com o pesquisador antes de avançar.</strong></div>
+    </div>
+  </div>
+</div>
 
-        <div class="field-card">
-            <div class="field-card-header">Indicação de Inserção</div>
-            <div class="field-card-body">
-                <p>Escolha a modalidade de disponibilização:</p>
-                <ul>
-                    <li><strong>Grupo 1 (Parceria PD&I):</strong> Contratos de cooperação.</li>
-                    <li><strong>Grupo 2 (Licenciamento):</strong> Exploração de patente/cultivar.</li>
-                    <li><strong>Grupo 3 (Outros):</strong> Venda direta, know-how ou gratuito.</li>
-                </ul>
-            </div>
-        </div>
+<div class="page-nav">
+  <button class="btn btn-secondary" onclick="goTo(4)">← Anterior</button>
+  <div class="nav-center"><span class="page-indicator">Capítulo 4a de 6</span></div>
+  <button class="btn btn-primary" onclick="goTo(6)">Próximo →</button>
+</div>
+</section>
 
-        <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(6)">← Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(8)">Capítulo 7 →</button>
-        </div>
-    </section>
+<!-- ══════════════════════ 4b. MERCADOLÓGICA ══════════════════════ -->
+<section class="page" id="page-6">
+<div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 4 · Parte B</div>
+<h1>Aba Caracterização Mercadológica</h1>
+<p class="page-subtitle">Análise de concorrência, SWOT, modelo de negócio e demais campos — orientações campo a campo</p>
 
-    <!-- PAG 8: PARCERIAS E REGULATÓRIO -->
-    <section class="page" id="page-8">
-        <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 7</div>
-        <h1>Parcerias e Regulatório</h1>
-        <p class="page-subtitle">Conformidade legal e proteção de ativos.</p>
+<span class="resp-badge qualif">✏️ Preenchida pelo Qualificador</span>
 
-        <div class="callout dica">
-            <span class="callout-title">📋 Dica de Pesquisa</span>
-            <p>Leia o contrato SAIC ou processo SEI do projeto. Geralmente eles contêm todos os dados dos parceiros (CNPJ, percentuais) necessários.</p>
-        </div>
+<div class="callout verde">
+  <div class="callout-icon">📌</div>
+  <div class="callout-body"><strong>Ponto de partida:</strong> antes de iniciar esta aba, certifique-se de ter lido toda a Caracterização do Ativo e, sempre que possível, conversado com o pesquisador. As informações desta aba são a base da estratégia de transferência de tecnologia do ativo.</div>
+</div>
 
-        <div class="field-card">
-            <div class="field-card-header">Checklist Regulatório</div>
-            <div class="field-card-body">
-                <ul>
-                    <li><strong>SisGen:</strong> Acesso ao Patrimônio Genético.</li>
-                    <li><strong>CTNBio:</strong> Biossegurança (para OGMs).</li>
-                    <li><strong>PI:</strong> Status da proteção (Fernanda de Almeida é o ponto focal).</li>
-                </ul>
-            </div>
-        </div>
+<h2>4.3.1 Temas, Políticas, Palavras-chave, Público-alvo e Cadeias</h2>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Campo</th><th>Orientação rápida</th><th>Atenção</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Temas Transversais</strong></td><td>Selecione os temas associados às cadeias agropecuárias e agroindustriais em que o ativo se insere</td><td>Selecione os aplicáveis em ordem de relevância — múltipla seleção permitida</td></tr>
+      <tr><td><strong>Políticas Públicas Associadas</strong></td><td>Vincule o ativo a programas e iniciativas federais relevantes</td><td>Selecione os aplicáveis em ordem de relevância — múltipla seleção permitida</td></tr>
+      <tr><td><strong>Palavras-chave</strong></td><td>Escolha termos que descrevam o conteúdo e a abrangência do ativo — diferentes das palavras presentes no nome</td><td>Mínimo 3, máximo 8. Ex. para sorgo granífero: Cereal, Granífero, Grãos, Safrinha, Risco climático, Alimentação animal</td></tr>
+      <tr><td><strong>Público-alvo</strong></td><td>Indique quem usará diretamente o ativo (a tecnologia resolve o problema de quem?)</td><td>Selecione conforme ordem de relevância. Ex.: produtor rural de médio nível tecnológico no Cerrado</td></tr>
+      <tr><td><strong>Cadeias Produtivas e Principais Atores</strong></td><td>Selecione as cadeias (milho, sorgo, milheto etc.) e descreva os atores-chave para cada uma</td><td>Foque nos atores principais — indústria de sementes, produtores, ATER, agroindústria de rações. Evite listas genéricas</td></tr>
+      <tr><td><strong>Biomas</strong></td><td>Indique o(s) bioma(s) de aplicação do ativo</td><td>Leia as regiões indicadas pelo pesquisador e consulte o IBGE Cidades para definir o bioma predominante dos municípios citados.</td></tr>
+    </tbody>
+  </table>
+</div>
 
-        <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(7)">← Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(9)">Capítulo 8 →</button>
-        </div>
-    </section>
+<h2>4.3.2 Análise de Concorrência</h2>
+<p>Esta é uma das análises mais importantes da qualificação. <strong>Dedique tempo a ela.</strong></p>
+<p>Identifique os principais ativos concorrentes e/ou similares disponíveis no mercado, considerando dois tipos:</p>
+<ul class="styled-list">
+  <li><strong>Concorrência direta:</strong> mesmo tipo de produto para o mesmo público — ex.: outros híbridos de milho safrinha de ciclo precoce de empresas privadas</li>
+  <li><strong>Concorrência indireta:</strong> produto diferente que resolve o mesmo problema — ex.: cultivares transgênicas vs. convencionais; controle químico vs. biológico da lagarta-do-cartucho</li>
+</ul>
+<div class="callout dica">
+  <div class="callout-icon">💡</div>
+  <div class="callout-body"><strong>Pergunta-chave:</strong> <em>O que o produtor usa hoje para resolver esse problema?</em></div>
+</div>
+<div class="callout atencao">
+  <div class="callout-icon">⚠️</div>
+  <div class="callout-body">Cultivares da própria Embrapa <strong>não devem ser listadas aqui</strong> como concorrentes — há campo específico para casos de portfólio interno.</div>
+</div>
 
-    <!-- PAG 9: FINALIZAÇÃO -->
-    <section class="page" id="page-9">
-        <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 8</div>
-        <h1>Finalização e Contatos</h1>
-        <p class="page-subtitle">Como concluir sua tarefa com sucesso.</p>
+<div class="step-list" style="margin-top:16px;">
+  <div class="step-item">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <strong>Use o que o pesquisador já indicou</strong>
+      <p>Use o campo "Quais soluções existentes resolvem o mesmo problema?" — o pesquisador frequentemente conhece bem as testemunhas dos ensaios. Aprofunde com fontes de mercado.</p>
+    </div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <strong>Use IA para um start</strong>
+      <p>Ferramentas como Google Gemini, ChatGPT e Claude podem acelerar significativamente o levantamento inicial. Use-as para gerar uma lista de partida — mas sempre verifique e complemente as informações geradas, pois IAs podem trazer dados desatualizados sobre produtos comerciais.</p>
+    </div>
+  </div>
+</div>
+<div class="callout atencao">
+  <div class="callout-icon">⚠️</div>
+  <div class="callout-body">Evite inserir dados sensíveis ou confidenciais nos prompts. Prefira o <strong>Google Gemini</strong> quando houver preocupação com segurança de dados institucionais, dado o acordo de parceria entre Google e Embrapa.</div>
+</div>
 
-        <div class="highlight-box">
-            <p>Após preencher tudo, envie um e-mail para a Gestora de Ativos (<strong>julia.resende@embrapa.com.br</strong>) informando a conclusão.</p>
-        </div>
+<h4>Prompt genérico — adapte para o seu ativo:</h4>
+<div class="prompt-box">"Atue como um especialista em mercado agropecuário brasileiro. Quero mapear os principais concorrentes diretos e indiretos de um ativo tecnológico da Embrapa com as seguintes características:
+— Tipo de ativo: [cultivar / bioinsumo / tecnologia de manejo / outro]
+— Cultura/espécie: [milho / sorgo / milheto / outra]
+— O que é o ativo: [descreva brevemente]
+— Principal aplicação: [ex.: controle de praga X, produção de grãos em safrinha]
+— Público-alvo: [ex.: produtor rural de médio nível tecnológico no Cerrado]
+— Problema que resolve: [descreva o problema]
 
-        <h2>Contatos Úteis</h2>
-        <div class="table-wrap">
-            <table>
-                <tr><th>Assunto</th><th>Responsável</th></tr>
-                <tr><td>Processo/Planilha</td><td>Julia Miranda</td></tr>
-                <tr><td>Propriedade Intelectual</td><td>Fernanda de Almeida</td></tr>
-                <tr><td>Leis/Regulatório</td><td>Maria José Vilaça</td></tr>
-            </table>
-        </div>
+Para cada concorrente encontrado, informe: nome do produto, empresa ou instituição responsável, tipo de concorrência (direta ou indireta) e principal diferencial ou limitação conhecida. Inclua tanto soluções do mesmo tipo quanto alternativas que resolvam o mesmo problema de forma diferente. Foque no mercado brasileiro."</div>
 
-        <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(8)">← Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(0)">🏠 Início</button>
-        </div>
-    </section>
+<h4>Fontes recomendadas</h4>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Categoria</th><th>Fonte</th></tr></thead>
+    <tbody>
+      <tr><td>Cultivares registradas</td><td>RNC — sistemas.agricultura.gov.br/snpc/cultivarweb/cultivares_registradas.php</td></tr>
+      <tr><td>Cultivares protegidas</td><td>SNPC — sistemas.agricultura.gov.br/snpc/cultivarweb/cultivares_protegidas.php</td></tr>
+      <tr><td>Sementes / Inteligência</td><td>Córtex/Painel Brasileiro de Sementes — cortex.sede.embrapa.br</td></tr>
+      <tr><td>Bioinsumos registrados</td><td>Agrofit (MAPA), Base Internacional de Bioprodutos (ir4app.rutgers.edu), Aplicativo Bioinsumos Embrapa</td></tr>
+      <tr><td>Biotecnologia / OGMs</td><td>CTNBio — ctnbio.mctic.gov.br</td></tr>
+      <tr><td>Patentes</td><td>INPI — gov.br/inpi/pt-br</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>4.3.3 Impactos no Portfólio da Embrapa</h2>
+<p>Analise se o novo ativo <strong>substitui</strong>, <strong>complementa</strong> ou <strong>compete</strong> com ativos já existentes no portfólio da Embrapa — tanto da sua unidade quanto de outras UDs.</p>
+<div class="comparison">
+  <div class="comp-col before">
+    <div class="comp-label b">Substituição</div>
+    <div class="comp-item">O novo ativo entra e o anterior sai do portfólio</div>
+  </div>
+  <div class="comp-col after">
+    <div class="comp-label a">Complementaridade</div>
+    <div class="comp-item">Ambos coexistem com aplicações distintas ou complementares</div>
+  </div>
+</div>
+<div class="callout atencao">
+  <div class="callout-icon">⚠️</div>
+  <div class="callout-body"><strong>Para cultivares em TRL 7:</strong> discuta o impacto no portfólio com o GT Pipeline Genética Vegetal antes de avançar — esse avanço de TRL representa entrada no portfólio comercial e deve refletir a estratégia gerencial da UD, envolvendo CTI e equipes de mercado.</div>
+</div>
+
+<h2>4.3.4 Validação técnica e mercadológica</h2>
+<p>Com base nas informações do campo "Alcance do Resultado" da aba de caracterização, descreva como o ativo foi validado técnica e mercadologicamente. O texto deve apresentar, de forma integrada e objetiva:</p>
+<ul class="styled-list">
+  <li>Os ambientes e condições de validação (laboratório, campo experimental ou ambiente operacional/comercial)</li>
+  <li>Os locais/regiões e períodos em que as validações ocorreram</li>
+  <li>Os parceiros envolvidos (empresas, cooperativas, produtores, instituições etc.)</li>
+  <li>Os principais ensaios realizados, escalas adotadas e resultados obtidos</li>
+  <li>Evidências de validação mercadológica junto ao público-alvo (custo-benefício, feedbacks, viabilidade logística etc.)</li>
+</ul>
+<div class="callout verde">
+  <div class="callout-icon">📌</div>
+  <div class="callout-body">Devem ser informados os <strong>Coeficientes Técnicos de Referência (CTR)</strong> e os <strong>Coeficientes Técnicos Atuais (CTA)</strong> efetivamente alcançados pelo ativo, indicando claramente quais CTRs foram atingidos, parcialmente atingidos ou não atingidos. A partir de TRL/MRL 4, espera-se que os principais CTRs tenham sido igualados ou superados.</div>
+</div>
+<div class="callout atencao">
+  <div class="callout-icon">⚠️</div>
+  <div class="callout-body">O texto não deve ser mera cópia de publicações científicas ou resumos de projetos. Inserir os principais dados dos ensaios em formato textual — o Gestec não aceita tabelas.</div>
+</div>
+
+<h2>4.3.5 Análise SWOT</h2>
+<p>A análise SWOT deve consolidar tudo o que foi levantado até aqui: características do ativo, concorrentes mapeados, contexto de mercado e tendências do setor.</p>
+<div class="callout dica">
+  <div class="callout-icon">💡</div>
+  <div class="callout-body"><strong>Sugestão:</strong> use o <strong>Notebook LM</strong> ou <strong>Google Gemini</strong> como ponto de partida. Cole as informações relevantes da Caracterização do Ativo e utilize o prompt abaixo para gerar a análise inicial.</div>
+</div>
+<div class="prompt-box">"Você é um especialista em transferência de tecnologia agropecuária no Brasil. Com base nas informações abaixo sobre um ativo tecnológico da Embrapa, elabore uma análise SWOT estruturada, considerando o contexto do agronegócio brasileiro, as cadeias produtivas de [inserir cultura] e o mercado de [inserir tipo do ativo]. Seja objetivo e aponte de 3 a 5 itens por quadrante.
+
+Informações do ativo: [cole aqui o conteúdo relevante da aba Caracterização do Ativo]"</div>
+
+<div class="swot-grid">
+  <div class="swot-cell forcas">
+    <h4>💪 Forças</h4>
+    <ul>
+      <li>Qual a vantagem competitiva ou diferencial da tecnologia da Embrapa?</li>
+      <li>Quais canais a Embrapa pode usar para promover a tecnologia?</li>
+      <li>A tecnologia tem características associadas à sustentabilidade?</li>
+    </ul>
+  </div>
+  <div class="swot-cell fraquezas">
+    <h4>⚡ Fraquezas</h4>
+    <ul>
+      <li>Quais são as reclamações constantes em relação à tecnologia?</li>
+      <li>Quais as dificuldades da Embrapa para entregar a tecnologia?</li>
+      <li>Quais são os gargalos operacionais?</li>
+    </ul>
+  </div>
+  <div class="swot-cell oportunidades">
+    <h4>🌱 Oportunidades</h4>
+    <ul>
+      <li>Quais influências políticas, econômicas ou sociais são favoráveis?</li>
+      <li>Quais problemas sem solução satisfatória no mercado a tecnologia pode resolver?</li>
+      <li>Há leis que dificultam os concorrentes?</li>
+    </ul>
+  </div>
+  <div class="swot-cell ameacas">
+    <h4>⚠️ Ameaças</h4>
+    <ul>
+      <li>Como a oferta é afetada por decisões políticas, econômicas ou de legislação?</li>
+      <li>Há entrantes ou competidores ampliando participação?</li>
+      <li>Qual a velocidade de substituição de tecnologias no segmento?</li>
+    </ul>
+  </div>
+</div>
+
+<h2>4.3.6 Indicação para Inserção do Ativo no Mercado</h2>
+<p>Informe a modalidade mais adequada para viabilizar a inserção do ativo no setor produtivo. Quanto mais próximo do TRL 8, mais urgente é essa definição.</p>
+<div class="modality-group">
+  <div class="modality-header">🤝 Grupo 1 — Parceria PD&I</div>
+  <div class="modality-body">
+    <p class="desc">Utilizado quando a tecnologia ainda será desenvolvida, validada ou escalonada em conjunto com parceiros. Indicado principalmente para ativos ainda em desenvolvimento ou validação.</p>
+    <div class="modality-items">
+      <div class="modality-item"><span class="dot">•</span><div><strong>Contrato de Cooperação Técnica</strong> — parceria para realização conjunta de atividades técnicas, testes, validações ou desenvolvimento</div></div>
+      <div class="modality-item"><span class="dot">•</span><div><strong>Contrato de Cooperação Técnico-financeira</strong> — parceria com compartilhamento de recursos financeiros entre as partes</div></div>
+    </div>
+  </div>
+</div>
+<div class="modality-group">
+  <div class="modality-header">📄 Grupo 2 — Licenciamento</div>
+  <div class="modality-body">
+    <p class="desc">Utilizado quando a Embrapa autoriza terceiros a explorar comercialmente um ativo protegido. Indicado para ativos protegidos e/ou próximos da comercialização.</p>
+    <div class="modality-items">
+      <div class="modality-item"><span class="dot">•</span><div><strong>Exploração de Cultivar Protegida</strong></div></div>
+      <div class="modality-item"><span class="dot">•</span><div><strong>Exploração de Patente</strong></div></div>
+      <div class="modality-item"><span class="dot">•</span><div><strong>Exploração de Programa de Computador</strong></div></div>
+      <div class="modality-item"><span class="dot">•</span><div><strong>Transferência/fornecimento de tecnologia industrial</strong></div></div>
+      <div class="modality-item"><span class="dot">•</span><div><strong>Uso de Marca</strong></div></div>
+    </div>
+  </div>
+</div>
+<div class="modality-group">
+  <div class="modality-header">🌐 Grupo 3 — Outras modalidades de disponibilização</div>
+  <div class="modality-body">
+    <p class="desc">Utilizado quando a disponibilização ocorre sem licenciamento formal de propriedade intelectual. Indicado para ativos cujo foco seja prestação de conhecimento, apoio técnico ou acesso aberto.</p>
+    <div class="modality-items">
+      <div class="modality-item"><span class="dot">•</span><div><strong>Transferência/fornecimento de know-how</strong></div></div>
+      <div class="modality-item"><span class="dot">•</span><div><strong>Incubação</strong> — apoio ao desenvolvimento de startups ou empreendimentos</div></div>
+      <div class="modality-item"><span class="dot">•</span><div><strong>Consultoria</strong> — apoio técnico especializado</div></div>
+      <div class="modality-item"><span class="dot">•</span><div><strong>Prestação de serviço</strong> — execução de análises, ensaios ou serviços técnicos</div></div>
+      <div class="modality-item"><span class="dot">•</span><div><strong>Venda direta</strong> — comercialização direta do ativo ou produto</div></div>
+      <div class="modality-item"><span class="dot">•</span><div><strong>Disponibilização gratuita</strong> — disponibilização aberta e sem cobrança</div></div>
+    </div>
+  </div>
+</div>
+
+<h2>4.3.7 Formas de Apresentação do Ativo</h2>
+<p>Descreva o formato físico ou digital em que o ativo chegará ao usuário final e a estratégia de comunicação prevista. Para definir o formato, considere: como os concorrentes apresentam soluções similares, o que o pesquisador previu e o perfil do público-alvo.</p>
+<div class="callout verde">
+  <div class="callout-icon">📦</div>
+  <div class="callout-body"><strong>Exemplos de formato:</strong> sacos de sementes (20 kg, 40 kg), frascos de biológico em diferentes volumes, caixas com unidades, aplicativo mobile, boletim técnico, vídeo instrucional.<br><strong>Estratégia:</strong> indique se o modelo é B2B (licenciamento, co-desenvolvimento, indústria) ou B2C (disponibilização direta ao produtor). Em TRL 8, alinhe a estratégia com o Licenciado.</div>
+</div>
+
+<h2>4.3.8 Parcerias Existentes ou Potenciais</h2>
+<p>Liste parceiros potenciais para validação e licenciamento do ativo, considerando o modelo de negócio e as regiões de recomendação.</p>
+<div class="callout atencao">
+  <div class="callout-icon">⚠️</div>
+  <div class="callout-body">Parceiros que já assinaram contrato de codesenvolvimento <strong>não devem ser listados aqui</strong> — esses já foram registrados na aba de "Parcerias Envolvidas e Regulatório".</div>
+</div>
+<p>Onde buscar potenciais parceiros:</p>
+<ul class="styled-list">
+  <li>Córtex – Painel Brasileiro de Sementes (Obtentores) e Rede de Parceiros da Embrapa</li>
+  <li>Renasem por cultura e região: sistemasweb.agricultura.gov.br/renasem</li>
+  <li>Córtex ou SLE – Base atual de Licenciados da Embrapa</li>
+  <li>Econodata (ferramentas gratuitas): econodata.com.br/ferramentas-gratuitas-econodata</li>
+  <li>Extensão Rocketsearch no Chrome — busca de contatos (telefone, e-mail)</li>
+  <li>Associações do setor: Croplife Brasil, Abisementes, entre outras</li>
+</ul>
+
+<h2>4.3.9 Necessidade de Avaliação do Gestor de Ativos</h2>
+<p>Ativos sem parecer do Gestor de Ativos (GA) não podem ser indicados como disponíveis para transferência. A avaliação pelo GA é obrigatória para: ativos sem TRL/MRL, TRL/MRL 8 e softwares em TRL 7 (beta). Também é obrigatória para ativos com proteção intelectual ou que serão divulgados como disponíveis para parceria.</p>
+
+<h2>4.3.10 Informações Adicionais</h2>
+<p>Use este campo para registrar qualquer informação relevante que não se encaixou nos campos anteriores. Na Embrapa Milho e Sorgo, este campo é usado de forma adaptada para dois fins complementares:</p>
+<ul class="styled-list">
+  <li><strong>Resultados associados inseridos após tramitação:</strong> quando uma qualificação já tramitou pelo CLPI e percebe-se que faltou incluir um resultado associado, a sede aceita que isso seja justificado nesse campo (evitando reabrir o formulário inteiro).</li>
+  <li><strong>Tabelas complementares da validação mercadológica:</strong> o campo de validação mercadológica no GESTEC tem limite de caracteres. O qualificador pode usar "Informações Adicionais" para incluir conteúdo extra, transformando tabelas em texto formatado manualmente.</li>
+</ul>
+
+<div class="page-nav">
+  <button class="btn btn-secondary" onclick="goTo(5)">← Anterior</button>
+  <div class="nav-center"><span class="page-indicator">Capítulo 4b de 6</span></div>
+  <button class="btn btn-primary" onclick="goTo(7)">Próximo →</button>
+</div>
+</section>
+
+<!-- ══════════════════════ 4c. PARCERIAS E REGULATÓRIO ══════════════════════ -->
+<section class="page" id="page-7">
+<div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 4 · Parte C</div>
+<h1>Aba Parcerias Envolvidas e Regulatório</h1>
+<p class="page-subtitle">Parceiros externos, aspectos legais e Propriedade Intelectual — orientações campo a campo</p>
+
+<span class="resp-badge qualif">✏️ Preenchida pelo Qualificador</span>
+
+<div class="callout dica">
+  <div class="callout-icon">📋</div>
+  <div class="callout-body"><strong>Como se preparar:</strong> as informações desta aba raramente estão disponíveis em um único lugar. O qualificador precisará pesquisar e prospectar junto ao <strong>líder técnico do ativo</strong>, ao <strong>gestor de ativos da UD (Julia Miranda)</strong> e/ou, quando houver parceria formalizada, ao <strong>líder negocial/gestor administrativo da parceria</strong>.</div>
+</div>
+
+<h2>4.4.1 Parcerias Envolvidas</h2>
+<p>Registre aqui todos os parceiros <strong>externos</strong> envolvidos no desenvolvimento do ativo.</p>
+<ul class="styled-list">
+  <li>Confira no documento do projeto no <strong>Quaesta</strong> se tem documentos (contratos, termos de outorga etc.) e os dados deles.</li>
+  <li>Converse com o <strong>líder técnico/pesquisador</strong> — ele geralmente conhece os parceiros envolvidos nos experimentos.</li>
+  <li>Converse com o <strong>líder negocial</strong> para verificar contratos formalizados no SAIC e processos SEI relacionados.</li>
+  <li>Quando houver número de contrato SAIC ou processo SEI, <strong>leia os documentos atrelados</strong> — eles frequentemente contêm dados completos do parceiro (CNPJ, razão social, percentuais, escopo) que não precisam ser solicitados separadamente.</li>
+</ul>
+<div class="callout dourado">
+  <div class="callout-icon">💡</div>
+  <div class="callout-body">Um contrato SAIC ou processo SEI bem lido pode responder a maioria dos campos desta seção sem necessidade de contatos adicionais.</div>
+</div>
+<p>Para cada parceiro externo identificado, preencha: tipo (pessoa jurídica ou física), dados de identificação (CNPJ/razão social ou CPF/nome), estágio de formalização, tipo de participação, número do contrato SAIC (se houver) e percentual de contribuição acordado.</p>
+
+<h2>4.4.2 Aspectos Regulatórios</h2>
+<p>Para cada item regulatório abaixo, o qualificador deve responder <strong>sim ou não</strong> e incluir as informações e documentos pertinentes. Em caso de dúvida, não tente responder sozinho — as orientações de contato estão indicadas em cada item.</p>
+
+<div class="reg-item">
+  <div class="reg-item-header">
+    <h4>Acesso ao Patrimônio Genético e/ou Conhecimento Tradicional Associado</h4>
+    <span class="lei">Lei 13.123/2015</span>
+  </div>
+  <div class="reg-item-body">
+    <p>Questione o pesquisador se o projeto envolve acesso ao patrimônio genético, inclusive usos que podem não ser óbvios, como a inoculação de fungos ou bactérias em casa de vegetação para avaliação de comportamento de genótipos. Nesses casos, <strong>há acesso ao patrimônio genético mesmo que o microrganismo não seja o objeto de entrega do ativo.</strong></p>
+    <p>Se sim: selecione o tipo de regularização (Autorização CGen, Cadastro SisGen ou ambos) e informe os números dos processos correspondentes.</p>
+    <div class="contact">👤 <strong>Com quem falar:</strong> pesquisador responsável + Maria José ou demais membros do Comitê Local de Aspectos Regulatórios da UD.</div>
+  </div>
+</div>
+<div class="reg-item">
+  <div class="reg-item-header">
+    <h4>Biossegurança</h4>
+    <span class="lei">Lei 11.105/2005</span>
+  </div>
+  <div class="reg-item-body">
+    <p>Aplicável quando o ativo envolve organismos geneticamente modificados (OGMs) ou seus derivados. Se sim, verifique se as atividades estão regularizadas junto à CIBIO e se o ativo está liberado para comercialização pela CTNBio.</p>
+    <p>Se houver documentos comprobatórios, <strong>encaminhe ao gestor de ativos da UD</strong> para que ele realize a anexação no Gestec.</p>
+    <div class="contact">👤 <strong>Com quem falar:</strong> pesquisador responsável + líder técnico do ativo.</div>
+  </div>
+</div>
+<div class="reg-item">
+  <div class="reg-item-header">
+    <h4>Agrotóxicos e Produtos de Controle Ambiental</h4>
+    <span class="lei">Lei 14.785/2023</span>
+  </div>
+  <div class="reg-item-body">
+    <p>Aplicável quando o ativo é ou contém um agrotóxico ou produto afim. Se sim, é necessário que o projeto esteja devidamente regularizado e que os documentos comprobatórios sejam anexados (ex.: Registro Especial Temporário — RET).</p>
+    <div class="callout dica" style="margin:8px 0;">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">O RET é uma autorização provisória para uso em pesquisa e experimentação — <strong>não autoriza comercialização.</strong></div>
+    </div>
+    <div class="contact">👤 <strong>Com quem falar:</strong> pesquisador responsável + líder técnico.</div>
+  </div>
+</div>
+<div class="reg-item">
+  <div class="reg-item-header">
+    <h4>Bioinsumos para Uso Agrícola</h4>
+    <span class="lei">Lei 15.070/2024</span>
+  </div>
+  <div class="reg-item-body">
+    <p>Aplicável a bioinsumos de uso agrícola. Devido à regulamentação ainda em andamento, ao marcar sim é suficiente registrar uma <strong>descrição no campo de texto</strong> (tipo de experimento, objetivo e estágio do projeto) — não é necessário anexar documentos neste momento.</p>
+    <div class="contact">👤 <strong>Com quem falar:</strong> pesquisador responsável.</div>
+  </div>
+</div>
+<div class="reg-item">
+  <div class="reg-item-header">
+    <h4>Pesquisa com Animais</h4>
+    <span class="lei">Lei 11.794/2008</span>
+  </div>
+  <div class="reg-item-body">
+    <p>Se sim, informe o número do certificado de autorização emitido pela <strong>CEUA</strong> e encaminhe o anexo correspondente ao gestor de ativos da UD para inclusão no Gestec.</p>
+    <div class="contact">👤 <strong>Com quem falar:</strong> pesquisador responsável.</div>
+  </div>
+</div>
+<div class="reg-item">
+  <div class="reg-item-header">
+    <h4>Pesquisa com Seres Humanos</h4>
+    <span class="lei">Lei 14.874/2024</span>
+  </div>
+  <div class="reg-item-body">
+    <p>Se sim, informe o Parecer de aprovação do <strong>Comitê de Ética em Pesquisa (CEP)</strong>.</p>
+    <div class="contact">👤 <strong>Com quem falar:</strong> pesquisador responsável.</div>
+  </div>
+</div>
+<div class="reg-item">
+  <div class="reg-item-header">
+    <h4>Outros Aspectos Regulatórios</h4>
+  </div>
+  <div class="reg-item-body">
+    <p>Indique outros aspectos regulatórios relevantes para obtenção ou adoção do ativo no mercado — ex.: normas sanitárias, exigências de importação, certificações específicas. Se não houver, marque <em>não se aplica.</em></p>
+  </div>
+</div>
+
+<h2>4.4.3 Propriedade Intelectual</h2>
+<p>Informe o status de PI do ativo. A situação da PI impacta diretamente na <strong>visibilidade do ativo no Portal da Embrapa</strong> — situações como "Em análise interna", "Não protegida com restrição de divulgação" ou "Protegida com restrição de divulgação" impedem a publicação no Portal.</p>
+<p>O contato atual principal é o ponto focal do CLPI na unidade (<strong>Fernanda de Almeida</strong>). Se houver proteção, registre: tipo de PI, número, data, titularidade, situação e eventuais extensões em outros países.</p>
+
+<h4>Orientações específicas por tipo de cultivar</h4>
+<ul class="styled-list">
+  <li><strong>Variedades (TRL ≥ 7):</strong> verifique protocolo de registro e proteção no SNPC/MAPA pelos sistemas: cultivares_registradas.php e cultivares_protegidas.php</li>
+  <li><strong>Híbridos (TRL ≥ 7):</strong> além dos dados da cultivar híbrida, identifique e registre a situação de proteção de cada progenitor/parental separadamente. Exemplo: "BRS 2107 — HS parental (CMSM027 x CMSM035) como fêmea x BRS 4107 como parental masculino. CMSM035: proteção vigente nº 20100032."</li>
+</ul>
+
+<h2>4.4.4 Registro Nacional de Cultivares (RNC)</h2>
+<p>Campo disponível apenas para cultivares convencionais e transgênicas/editadas. Informe se a cultivar foi registrada no RNC/MAPA e o número do registro correspondente.</p>
+<div class="callout dica">
+  <div class="callout-icon">👤</div>
+  <div class="callout-body"><strong>Como obter:</strong> consulte o líder negocial da parceria envolvida (membro do SPAT) ou o gestor de ativos da UD — eles geralmente têm acesso a essa informação ou podem indicar onde localizá-la.</div>
+</div>
+
+<div class="page-nav">
+  <button class="btn btn-secondary" onclick="goTo(6)">← Anterior</button>
+  <div class="nav-center"><span class="page-indicator">Capítulo 4c de 6</span></div>
+  <button class="btn btn-primary" onclick="goTo(8)">Próximo →</button>
+</div>
+</section>
+
+<!-- ══════════════════════ 5. FINALIZAÇÃO ══════════════════════ -->
+<section class="page" id="page-8">
+<div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 5</div>
+<h1>Fluxo de Finalização e Envio</h1>
+<p class="page-subtitle">O que fazer ao concluir o preenchimento das suas abas</p>
+
+<div class="step-list">
+  <div class="step-item">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <strong>Qualificador e pesquisador notificam o gestor de ativos</strong>
+      <p>Ao concluir o preenchimento das suas respectivas abas, tanto o qualificador quanto o pesquisador devem avisar o gestor de ativos da UD — por e-mail de preferência (julia.resende@embrapa.com.br). Não é necessário nenhum procedimento especial para salvar a planilha — basta fechar o arquivo.</p>
+    </div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <strong>Gestor de Ativos da UD verifica o preenchimento</strong>
+      <p>O gestor vai revisar se todos os campos obrigatórios foram preenchidos ou justificados. Caso identifique lacunas, retorna ao responsável pelo campo para complementação. Fique de olho em seu e-mail.</p>
+    </div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <strong>Exportação do PDF e envio ao pesquisador</strong>
+      <p>Após validação, o gestor irá exportar a planilha em PDF e enviar ao líder técnico/pesquisador responsável pelo ativo, que usará tal documento como <strong>comprovante de entrega da qualificação</strong>.</p>
+    </div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <strong>Inserção no Gestec</strong>
+      <p>Com a aprovação pelo CTI de resultado alcançado, o gestor de ativos utilizará as informações da planilha para inserir a qualificação no Gestec, sistema institucional de gestão de portfólio da Embrapa.</p>
+    </div>
+  </div>
+</div>
+
+<div class="callout atencao">
+  <div class="callout-icon">⚠️</div>
+  <div class="callout-body">
+    <div class="callout-title">Atenção</div>
+    A inserção no Gestec é de <strong>responsabilidade exclusiva do gestor de ativos da UD</strong> — qualificador e pesquisador não precisam realizar nenhuma ação direta nesta etapa. Apenas prestar algum auxílio, se for o caso.
+  </div>
+</div>
+
+<div class="callout dica">
+  <div class="callout-icon">💡</div>
+  <div class="callout-body">
+    <div class="callout-title">Sobre o salvamento automático</div>
+    Não é necessário nenhum procedimento especial para salvar — basta fechar o arquivo. Todas as alterações ficam registradas automaticamente.
+  </div>
+</div>
+
+<div class="page-nav">
+  <button class="btn btn-secondary" onclick="goTo(7)">← Anterior</button>
+  <div class="nav-center"><span class="page-indicator">Capítulo 5 de 6</span></div>
+  <button class="btn btn-primary" onclick="goTo(9)">Último capítulo →</button>
+</div>
+</section>
+
+<!-- ══════════════════════ 6. CONTATOS ══════════════════════ -->
+<section class="page" id="page-9">
+<div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 6</div>
+<h1>Contatos e Suporte</h1>
+<p class="page-subtitle">Em caso de dúvidas durante o preenchimento, consulte primeiro as orientações disponíveis na própria planilha e neste manual. Se a dúvida persistir, acione o contato mais adequado conforme o tema.</p>
+
+<h2>Contatos internos — Embrapa Milho e Sorgo</h2>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Tema</th><th>Quem acionar</th></tr></thead>
+    <tbody>
+      <tr><td>Dúvidas gerais sobre o formulário e o processo</td><td><strong>Julia Miranda Resende</strong> — Gestor de ativos da UD<br><a href="mailto:julia.resende@embrapa.com.br" style="color:var(--green-mid)">julia.resende@embrapa.com.br</a></td></tr>
+      <tr><td>Informações sobre o ativo, validação técnica e parceiros</td><td>Líder técnico / Pesquisador responsável pelo ativo (nome estará na aba de "Descrição Inicial")</td></tr>
+      <tr><td>Parcerias formalizadas — contratos SAIC e processos SEI</td><td>Líder negocial / Gestor administrativo da parceria (líder técnico ou gestor de ativos da UD podem auxiliar)</td></tr>
+      <tr><td>Propriedade Intelectual</td><td>CLPI da unidade — ponto focal <strong>Fernanda de Almeida</strong></td></tr>
+      <tr><td>Aspectos regulatórios — patrimônio genético, biossegurança etc.</td><td><strong>Maria José</strong> e demais membros do Comitê Local de Aspectos Regulatórios</td></tr>
+      <tr><td>Acesso ao Gestec e exportação de listas de ativos</td><td><strong>Julia Miranda Resende</strong><br><a href="mailto:julia.resende@embrapa.com.br" style="color:var(--green-mid)">julia.resende@embrapa.com.br</a></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>Links externos úteis</h2>
+<div class="link-grid">
+  <a class="link-card" href="https://sistemas.agricultura.gov.br/snpc/cultivarweb/cultivares_registradas.php" target="_blank">
+    <div class="lc-topic">Registro e proteção de cultivares</div>
+    <div class="lc-name">RNC / SNPC</div>
+    <div class="lc-url">sistemas.agricultura.gov.br/snpc/cultivarweb</div>
+  </a>
+  <a class="link-card" href="https://agrofit.agricultura.gov.br/agrofit_cons/principal_agrofit_cons" target="_blank">
+    <div class="lc-topic">Agrotóxicos e biológicos registrados</div>
+    <div class="lc-name">Agrofit — MAPA</div>
+    <div class="lc-url">agrofit.agricultura.gov.br</div>
+  </a>
+  <a class="link-card" href="https://www.gov.br/inpi/pt-br" target="_blank">
+    <div class="lc-topic">Patentes nacionais</div>
+    <div class="lc-name">INPI</div>
+    <div class="lc-url">gov.br/inpi/pt-br</div>
+  </a>
+  <a class="link-card" href="https://play.google.com/store/apps/details?id=br.embrapa.bioinsumos" target="_blank">
+    <div class="lc-topic">Bioinsumos registrados</div>
+    <div class="lc-name">Aplicativo Bioinsumos Embrapa</div>
+    <div class="lc-url">Google Play / Apple Store</div>
+  </a>
+  <a class="link-card" href="https://cortex.sede.embrapa.br" target="_blank">
+    <div class="lc-topic">Inteligência de mercado e sementes</div>
+    <div class="lc-name">Córtex — Embrapa</div>
+    <div class="lc-url">cortex.sede.embrapa.br</div>
+  </a>
+  <a class="link-card" href="https://sistemasweb.agricultura.gov.br/renasem" target="_blank">
+    <div class="lc-topic">Potenciais parceiros — empresas e obtentores</div>
+    <div class="lc-name">Renasem</div>
+    <div class="lc-url">sistemasweb.agricultura.gov.br/renasem</div>
+  </a>
+  <a class="link-card" href="https://ctnbio.mctic.gov.br" target="_blank">
+    <div class="lc-topic">Eventos transgênicos aprovados</div>
+    <div class="lc-name">CTNBio</div>
+    <div class="lc-url">ctnbio.mctic.gov.br</div>
+  </a>
+  <a class="link-card" href="https://econodata.com.br/ferramentas-gratuitas-econodata" target="_blank">
+    <div class="lc-topic">Prospecção de contatos comerciais</div>
+    <div class="lc-name">Econodata</div>
+    <div class="lc-url">econodata.com.br</div>
+  </a>
+  <a class="link-card" href="https://ir4app.rutgers.edu/biopestPub/labelResult2.aspx" target="_blank">
+    <div class="lc-topic">Base internacional de bioprodutos</div>
+    <div class="lc-name">IR-4 / Rutgers University</div>
+    <div class="lc-url">ir4app.rutgers.edu</div>
+  </a>
+</div>
+
+<div class="highlight-box" style="margin-top: 36px;">
+  <p>Obrigada pela sua dedicação ao processo de qualificação. Uma análise mercadológica bem feita é o que transforma um bom resultado de pesquisa em uma tecnologia que chega às mãos de quem mais precisa. 🌱</p>
+</div>
+
+<div class="page-nav">
+  <button class="btn btn-secondary" onclick="goTo(8)">← Anterior</button>
+  <div class="nav-center">
+    <button class="btn btn-ghost" onclick="goTo(1)">↑ Voltar ao Sumário</button>
+  </div>
+  <button class="btn btn-primary" onclick="goTo(0)">🏠 Início</button>
+</div>
+</section>
 
   </main>
 </div>
@@ -457,12 +1740,12 @@ const chapters = [
   { label: 'Sumário', icon: '📋' },
   { label: '1. Introdução', icon: '01' },
   { label: '2. Processo', icon: '02' },
-  { label: '3. Planilha', icon: '03' },
-  { label: '4. Leitura', icon: '04' },
-  { label: '5. Mercadológica', icon: '05' },
-  { label: '6. SWOT', icon: '06' },
-  { label: '7. Regulatório', icon: '07' },
-  { label: '8. Finalização', icon: '08' }
+  { label: '3. Como Usar', icon: '03' },
+  { label: '4a. Descrição / Caract.', icon: '4a' },
+  { label: '4b. Mercadológica', icon: '4b' },
+  { label: '4c. Parcerias / Reg.', icon: '4c' },
+  { label: '5. Finalização', icon: '05' },
+  { label: '6. Contatos', icon: '06' },
 ];
 let current = 0;
 
