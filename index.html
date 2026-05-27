@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 
-/* ===== RESET & VARS (Baseado no modelo index 6) ===== */
+/* ===== RESET & VARS (IDÊNTICO AO INDEX 6) ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -68,11 +68,7 @@ html, body {
   border-bottom: 1px solid rgba(255,255,255,0.1);
   flex-shrink: 0;
 }
-.sidebar-brand-icon {
-  font-size: 22px;
-  margin-bottom: 8px;
-  display: block;
-}
+.sidebar-brand-icon { font-size: 22px; margin-bottom: 8px; display: block; }
 .sidebar-brand-name {
   font-family: 'Lora', serif;
   font-size: 13px;
@@ -114,64 +110,121 @@ html, body {
   margin-bottom: 2px;
 }
 .nav-item:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); }
-.nav-item.active { background: var(--green-light); color: var(--green-dark); font-weight: 700; }
+.nav-item.active {
+  background: var(--green-light);
+  color: var(--green-dark);
+  font-weight: 700;
+}
+.nav-item-num {
+  font-family: 'Lora', serif;
+  font-size: 11px;
+  width: 20px;
+  flex-shrink: 0;
+  text-align: center;
+  opacity: 0.6;
+}
 
-.sidebar-footer { padding: 14px 20px; border-top: 1px solid rgba(255,255,255,0.08); flex-shrink: 0; }
+.sidebar-footer {
+  padding: 14px 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
 .progress-label { font-size: 10px; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 6px; }
 .progress-track { height: 3px; background: rgba(255,255,255,0.12); border-radius: 2px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--green-light); transition: width 0.5s ease; width: 0%; }
+.progress-text { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 5px; }
 
 /* ===== MAIN CONTENT ===== */
 .main {
   flex: 1;
   height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 40px 48px 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.page { display: none; width: 100%; max-width: var(--content-max); animation: fadeUp 0.35s ease; }
+.page {
+  display: none;
+  width: 100%;
+  max-width: var(--content-max);
+  animation: fadeUp 0.35s ease;
+}
 .page.active { display: block; }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ===== COVER ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== COVER (CÓPIA EXATA DA ESTÉTICA DO ANEXO) ===== */
 .cover {
   background: linear-gradient(150deg, #0a1f10 0%, #1a4a2e 50%, #0f2d1a 100%);
-  min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 10%; margin: -40px -48px -60px; width: calc(100% + 96px);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 10%;
+  margin: -40px -48px -60px;
+  width: calc(100% + 96px);
+  position: relative;
+  overflow: hidden;
 }
-.cover h1 { font-family: 'Lora', serif; font-size: 48px; color: white; margin-bottom: 20px; }
-.cover-sub { font-size: 18px; color: white; opacity: 0.9; margin-bottom: 40px; font-weight: 300; }
-.cover-btn { background: var(--green-light); color: var(--green-dark); border: none; padding: 16px 36px; border-radius: 40px; font-weight: 700; cursor: pointer; }
+.cover::before {
+  content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px;
+  border-radius: 50%; background: radial-gradient(circle, rgba(76,175,116,0.18) 0%, transparent 65%);
+}
+.cover-tag { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #ffffff; margin-bottom: 28px; z-index: 1; }
+.cover h1 { font-family: 'Lora', serif; font-size: 52px; font-weight: 700; line-height: 1.15; margin-bottom: 20px; color: white; max-width: 640px; z-index: 1; }
+.cover-divider { width: 72px; height: 3px; background: #ffffff; margin-bottom: 28px; border-radius: 2px; z-index: 1; }
+.cover-sub { font-size: 19px; color: #ffffff; margin-bottom: 40px; font-weight: 300; max-width: 560px; line-height: 1.6; z-index: 1; }
+.cover-meta { font-size: 13.5px; color: #ffffff; line-height: 2; z-index: 1; }
+.cover-btn {
+  margin-top: 52px; background: var(--green-light); color: var(--green-dark); border: none;
+  padding: 16px 36px; border-radius: 40px; font-weight: 700; cursor: pointer; transition: 0.3s;
+}
+.cover-btn:hover { background: white; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.25); }
 
 /* ===== COMPONENTS ===== */
 .chapter-badge { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--green-mid); margin-bottom: 14px; }
 .chapter-badge-line { width: 32px; height: 2px; background: var(--green-light); }
-.page h1 { font-family: 'Lora', serif; font-size: 32px; color: var(--green-dark); margin-bottom: 8px; }
-.page-subtitle { font-size: 16px; color: var(--text-light); margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-.field-card { background: white; border: 1px solid var(--border); border-radius: 12px; margin: 20px 0; overflow: hidden; }
-.field-card-header { background: var(--green-dark); color: white; padding: 12px 20px; font-weight: 700; font-size: 14px; }
-.field-card-body { padding: 20px; }
-.callout { border-radius: 8px; padding: 16px; margin: 15px 0; display: flex; gap: 12px; font-size: 14px; border-left: 4px solid transparent; }
-.callout.dica { background: var(--green-pale); border-color: var(--green-light); }
+.page h1 { font-family: 'Lora', serif; font-size: 34px; font-weight: 700; color: var(--green-dark); margin-bottom: 8px; }
+.page-subtitle { font-size: 16px; color: var(--text-light); margin-bottom: 36px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+
+.field-card { background: white; border: 1px solid var(--border); border-radius: 12px; margin: 24px 0; overflow: hidden; box-shadow: 0 2px 10px rgba(26,74,46,0.07); }
+.field-card-header { background: var(--green-dark); color: white; padding: 14px 22px; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 10px; }
+.field-card-body { padding: 22px; }
+
+.callout { border-radius: 10px; padding: 16px 20px; margin: 20px 0; display: flex; gap: 14px; font-size: 15px; border-left: 4px solid transparent; }
+.callout.dica { background: var(--green-ultra); border-color: var(--green-light); }
 .callout.atencao { background: var(--amber-light); border-color: var(--amber); }
 .callout.importante { background: var(--red-light); border-color: var(--red); }
-.highlight-box { background: linear-gradient(135deg, var(--green-dark), var(--green-mid)); color: white; border-radius: 12px; padding: 25px; margin: 20px 0; }
-.table-wrap { overflow-x: auto; margin: 20px 0; border: 1px solid var(--border); border-radius: 8px; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th { background: #f8faf9; padding: 12px; text-align: left; border-bottom: 2px solid var(--border); color: var(--green-dark); }
-td { padding: 12px; border-bottom: 1px solid var(--border); }
-.prompt-box { background: #222; color: #a5d6a7; padding: 20px; border-radius: 8px; font-family: monospace; margin: 15px 0; white-space: pre-wrap; font-size: 13px; }
+.callout-title { font-weight: 700; font-size: 12px; text-transform: uppercase; margin-bottom: 4px; display: block; }
 
-.toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-.toc-card { background: white; border: 1px solid var(--border); padding: 20px; border-radius: 10px; cursor: pointer; transition: 0.2s; }
-.toc-card:hover { transform: translateY(-3px); border-color: var(--green-light); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.highlight-box { background: linear-gradient(135deg, var(--green-dark), var(--green-mid)); color: white; border-radius: 12px; padding: 26px 30px; margin: 24px 0; }
+.highlight-box p { margin: 0; line-height: 1.75; }
 
-.page-nav { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
-.btn { padding: 10px 20px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; }
+.toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+.toc-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; cursor: pointer; transition: 0.22s; display: flex; gap: 16px; align-items: flex-start; }
+.toc-card:hover { border-color: var(--green-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,74,46,0.12); }
+.toc-num { font-family: 'Lora', serif; font-size: 30px; font-weight: 700; color: var(--green-light); line-height: 1; }
+.toc-title { font-weight: 700; font-size: 14px; color: var(--green-dark); margin-bottom: 5px; }
+.toc-desc { font-size: 12px; color: var(--text-light); }
+
+.table-wrap { overflow-x: auto; margin: 20px 0; border: 1px solid var(--border); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+th { background: var(--green-dark); color: white; padding: 13px 18px; text-align: left; font-size: 12px; text-transform: uppercase; }
+td { padding: 13px 18px; border-bottom: 1px solid var(--border); }
+tr:nth-child(even) td { background: var(--green-ultra); }
+
+.page-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+.btn { padding: 11px 22px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; display: flex; align-items: center; gap: 8px; }
 .btn-primary { background: var(--green-dark); color: white; }
-.btn-secondary { background: var(--green-pale); color: var(--green-dark); }
+.btn-secondary { background: var(--green-ultra); color: var(--green-dark); border: 1px solid var(--border); }
+
+.prompt-box { background: #1a1a1a; color: #d4f5d4; border-radius: 8px; padding: 20px; font-family: monospace; font-size: 13px; line-height: 1.6; margin: 16px 0; }
 
 </style>
 </head>
@@ -188,33 +241,42 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
     <div class="sidebar-footer">
       <div class="progress-label">Progresso</div>
       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">Página 1 de 10</div>
     </div>
   </aside>
 
   <main class="main" id="mainContent">
     
-    <!-- PAG 0: CAPA -->
+    <!-- PAG 0: CAPA (IGUAL AO ANEXO) -->
     <section class="page active" id="page-0">
       <div class="cover">
-        <h1>Manual do Qualificador</h1>
-        <div class="cover-sub">Guia prático para análise mercadológica, regulatória e de parcerias no processo de qualificação de ativos tecnológicos.</div>
-        <button class="cover-btn" onclick="goTo(1)">Iniciar Guia →</button>
+        <div class="cover-tag">Embrapa Milho e Sorgo · 2026</div>
+        <h1>Manual Extra de Apoio ao Qualificador</h1>
+        <div class="cover-divider"></div>
+        <div class="cover-sub">Guia prático para análise mercadológica, regulatória e de parcerias no processo de qualificação de ativos tecnológicos</div>
+        <div class="cover-meta">
+          <strong>Público-alvo:</strong> Agentes de TT e Qualificadores de Ativos<br>
+          <strong>Versão:</strong> Maio de 2026 (1.0) · Modelo integrado<br>
+          <strong>Unidade:</strong> Embrapa Milho e Sorgo · Sete Lagoas/MG
+        </div>
+        <button class="cover-btn" onclick="goTo(1)">Começar a leitura →</button>
       </div>
     </section>
 
     <!-- PAG 1: SUMARIO -->
     <section class="page" id="page-1">
-      <div class="chapter-badge"><div class="chapter-badge-line"></div>Conteúdo</div>
+      <div class="chapter-badge"><div class="chapter-badge-line"></div>Índice</div>
       <h1>Sumário</h1>
+      <p class="page-subtitle">Navegue pelos capítulos clicando nos cards abaixo.</p>
       <div class="toc-grid">
-        <div class="toc-card" onclick="goTo(2)"><strong>1. Introdução</strong><p>O papel do qualificador e o que é o processo.</p></div>
-        <div class="toc-card" onclick="goTo(3)"><strong>2. O Processo</strong><p>Fluxo do CTI ao Gestec.</p></div>
-        <div class="toc-card" onclick="goTo(4)"><strong>3. Uso da Planilha</strong><p>Regras de edição e colaboração.</p></div>
-        <div class="toc-card" onclick="goTo(5)"><strong>4. Guia de Leitura</strong><p>Análise das abas preenchidas pelo Pesquisador.</p></div>
-        <div class="toc-card" onclick="goTo(6)"><strong>5. Caracterização Mercadológica</strong><p>Análise de mercado e Concorrência.</p></div>
-        <div class="toc-card" onclick="goTo(7)"><strong>6. SWOT e Modelo</strong><p>Estratégia e inserção no mercado.</p></div>
-        <div class="toc-card" onclick="goTo(8)"><strong>7. Parcerias e Regulatório</strong><p>Aspectos legais, PI e contratos.</p></div>
-        <div class="toc-card" onclick="goTo(9)"><strong>8. Finalização</strong><p>Como enviar e validar os dados.</p></div>
+        <div class="toc-card" onclick="goTo(2)"><div class="toc-num">1</div><div><div class="toc-title">Introdução</div><div class="toc-desc">O papel do qualificador e os objetivos.</div></div></div>
+        <div class="toc-card" onclick="goTo(3)"><div class="toc-num">2</div><div><div class="toc-title">O Processo</div><div class="toc-desc">Fluxo completo da qualificação.</div></div></div>
+        <div class="toc-card" onclick="goTo(4)"><div class="toc-num">3</div><div><div class="toc-title">Uso da Planilha</div><div class="toc-desc">Regras de edição no Google Sheets.</div></div></div>
+        <div class="toc-card" onclick="goTo(5)"><div class="toc-num">4</div><div><div class="toc-title">Guia de Leitura</div><div class="toc-desc">Analisando o que o pesquisador escreveu.</div></div></div>
+        <div class="toc-card" onclick="goTo(6)"><div class="toc-num">5</div><div><div class="toc-title">Caracterização Mercadológica</div><div class="toc-desc">Mercado, Concorrência e Públicos.</div></div></div>
+        <div class="toc-card" onclick="goTo(7)"><div class="toc-num">6</div><div><div class="toc-title">SWOT e Estratégia</div><div class="toc-desc">Análise SWOT e modelos de negócio.</div></div></div>
+        <div class="toc-card" onclick="goTo(8)"><div class="toc-num">7</div><div><div class="toc-title">Parcerias e Regulatório</div><div class="toc-desc">Contratos, PI e leis específicas.</div></div></div>
+        <div class="toc-card" onclick="goTo(9)"><div class="toc-num">8</div><div><div class="toc-title">Finalização</div><div class="toc-desc">Fluxo de envio e validação final.</div></div></div>
       </div>
     </section>
 
@@ -222,102 +284,109 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
     <section class="page" id="page-2">
       <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 1</div>
       <h1>Introdução</h1>
-      <p class="page-subtitle">O que é a qualificação e seu papel nela.</p>
+      <p class="page-subtitle">O papel vital da qualificação para a transferência de tecnologia.</p>
       
       <div class="highlight-box">
-        A qualificação de ativos é o processo pelo qual a Embrapa formaliza, organiza e avalia o potencial de transferência de tecnologias. É aqui que um resultado de pesquisa vira um <strong>ativo tecnológico</strong>.
+        <p>A qualificação de ativos é o processo pelo qual a Embrapa formaliza e avalia o potencial de transferência de tecnologias. É aqui que um resultado de pesquisa passa a ser reconhecido institucionalmente como um <strong>ativo tecnológico</strong>.</p>
       </div>
 
-      <h2>O papel do Qualificador</h2>
-      <p>Você é o agente de TT responsável por transformar o conhecimento científico em uma proposta de valor clara para o mercado.</p>
       <div class="field-card">
-        <div class="field-card-header">Suas responsabilidades de preenchimento:</div>
+        <div class="field-card-header">Sua missão como Qualificador</div>
         <div class="field-card-body">
+          <p>Você é o responsável por complementar as informações técnicas com uma visão de mercado e conformidade legal. Suas abas são:</p>
           <ul>
-            <li><strong>Descrição Inicial:</strong> Nome do ativo (se novo).</li>
-            <li><strong>Caracterização Mercadológica:</strong> Mercado, concorrência, SWOT e negócio.</li>
-            <li><strong>Parcerias e Regulatório:</strong> Aspectos legais, PI e parceiros.</li>
+            <li><strong>Descrição Inicial:</strong> Criação do nome do ativo.</li>
+            <li><strong>Caracterização Mercadológica:</strong> SWOT, concorrência e modelo de negócio.</li>
+            <li><strong>Parcerias e Regulatório:</strong> PI e aspectos legais.</li>
           </ul>
         </div>
       </div>
-      
+
       <div class="page-nav">
-        <button class="btn btn-secondary" onclick="goTo(1)">Anterior</button>
-        <button class="btn btn-primary" onclick="goTo(3)">Próximo</button>
+        <button class="btn btn-secondary" onclick="goTo(1)">← Voltar</button>
+        <button class="btn btn-primary" onclick="goTo(3)">Capítulo 2 →</button>
       </div>
     </section>
 
     <!-- PAG 3: PROCESSO -->
     <section class="page" id="page-3">
-        <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 2</div>
-        <h1>Processo de Qualificação</h1>
-        <p>O fluxo envolve a integração entre CTI, Gestor, Pesquisador e você.</p>
-        
-        <div class="field-card">
-            <div class="field-card-header">Fluxo de Trabalho</div>
-            <div class="field-card-body">
-                <ol>
-                    <li>CTI aprova resultado.</li>
-                    <li>Gestor configura a planilha Google Sheets.</li>
-                    <li>Pesquisador preenche dados técnicos.</li>
-                    <li><strong>Qualificador (Você) realiza a análise de mercado e parcerias.</strong></li>
-                    <li>Gestor revisa e insere no Gestec.</li>
-                </ol>
-            </div>
+      <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 2</div>
+      <h1>O Processo de Qualificação</h1>
+      <p class="page-subtitle">O caminho do ativo do laboratório ao Gestec.</p>
+      
+      <div class="field-card">
+        <div class="field-card-header">Fluxo de Trabalho</div>
+        <div class="field-card-body">
+          <p>O processo envolve 4 atores principais:</p>
+          <ol>
+            <li><strong>CTI:</strong> Aprova o resultado de pesquisa alcançado.</li>
+            <li><strong>Gestor de Ativos:</strong> Configura a planilha e faz a revisão final.</li>
+            <li><strong>Pesquisador:</strong> Preenche a caracterização técnica do ativo.</li>
+            <li><strong>Qualificador (Você):</strong> Conduz a análise estratégica e de mercado.</li>
+          </ol>
         </div>
-        <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(2)">Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(4)">Próximo</button>
-        </div>
+      </div>
+
+      <div class="page-nav">
+        <button class="btn btn-secondary" onclick="goTo(2)">← Anterior</button>
+        <button class="btn btn-primary" onclick="goTo(4)">Capítulo 3 →</button>
+      </div>
     </section>
 
-    <!-- PAG 4: COMO USAR -->
+    <!-- PAG 4: USO DA PLANILHA -->
     <section class="page" id="page-4">
         <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 3</div>
-        <h1>Como usar a planilha</h1>
+        <h1>Uso da Planilha</h1>
+        <p class="page-subtitle">Regras de colaboração em tempo real.</p>
+
         <div class="callout importante">
-            A planilha é editada exclusivamente via <strong>Google Sheets</strong>. Não faça download para Excel, pois isso quebra a colaboração em tempo real.
+            <span class="callout-title">⚠️ Regra de Ouro</span>
+            <p><strong>Não baixe a planilha para Excel.</strong> O preenchimento deve ser feito exclusivamente no Google Sheets para garantir que todos vejam as atualizações e os comentários.</p>
         </div>
+
         <div class="field-card">
-            <div class="field-card-header">Dicas Práticas</div>
+            <div class="field-card-header">Dicas de Edição</div>
             <div class="field-card-body">
                 <ul>
-                    <li>Campos brancos: texto livre.</li>
-                    <li>Campos cinzas: listas suspensas.</li>
-                    <li>Nova linha na célula: <strong>Alt + Enter</strong>.</li>
-                    <li>Não altere a Coluna A ou a estrutura da planilha.</li>
+                    <li><strong>Campos Brancos:</strong> Texto livre.</li>
+                    <li><strong>Campos Cinzas:</strong> Listas suspensas (seleção).</li>
+                    <li><strong>Quebra de linha:</strong> Use <strong>Alt + Enter</strong>.</li>
+                    <li><strong>Comunicação:</strong> Use o botão de comentários para tirar dúvidas com o pesquisador.</li>
                 </ul>
             </div>
         </div>
+
         <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(3)">Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(5)">Próximo</button>
+            <button class="btn btn-secondary" onclick="goTo(3)">← Anterior</button>
+            <button class="btn btn-primary" onclick="goTo(5)">Capítulo 4 →</button>
         </div>
     </section>
 
     <!-- PAG 5: GUIA DE LEITURA -->
     <section class="page" id="page-5">
         <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 4</div>
-        <h1>Guia de Leitura (Abas do Pesquisador)</h1>
-        <p>Antes de escrever, você precisa entender o que o pesquisador declarou.</p>
-        
-        <div class="field-card">
-            <div class="field-card-header">Aba: Caracterização do Ativo</div>
-            <div class="field-card-body">
-                <p>Observe especialmente:</p>
-                <ul>
-                    <li><strong>Problemas resolvidos:</strong> Ajuda a entender as "dores" do mercado.</li>
-                    <li><strong>Inovação:</strong> Define o diferencial competitivo para sua SWOT.</li>
-                    <li><strong>Validação Técnica:</strong> Indica a TRL real e prontidão.</li>
-                </ul>
-            </div>
+        <h1>Guia de Leitura</h1>
+        <p class="page-subtitle">Analisando as informações do Pesquisador.</p>
+
+        <p>Antes de iniciar sua parte, você deve ler atentamente a aba <strong>Caracterização do Ativo</strong>. Dali sairão os insumos para sua análise mercadológica.</p>
+
+        <div class="table-wrap">
+            <table>
+                <tr><th>Campo do Pesquisador</th><th>Insight para o Qualificador</th></tr>
+                <tr><td>Problemas que resolve</td><td>Define as "dores" que você usará para a SWOT.</td></tr>
+                <tr><td>Inovação</td><td>É o seu "ponto de venda" na análise de concorrência.</td></tr>
+                <tr><td>Validação Técnica</td><td>Informa o estágio real (TRL) e maturidade.</td></tr>
+            </table>
         </div>
+
         <div class="callout dica">
-            Dúvida no que o pesquisador escreveu? Use os <strong>comentários do Google Sheets</strong> e marque-o (@nome) para esclarecer pontos técnicos antes de iniciar sua análise.
+            <span class="callout-title">💡 Dica</span>
+            <p>Se a descrição técnica estiver confusa, não tente adivinhar. Marque o pesquisador em um comentário na célula e peça esclarecimentos.</p>
         </div>
+
         <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(4)">Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(6)">Próximo</button>
+            <button class="btn btn-secondary" onclick="goTo(4)">← Anterior</button>
+            <button class="btn btn-primary" onclick="goTo(6)">Capítulo 5 →</button>
         </div>
     </section>
 
@@ -325,32 +394,29 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
     <section class="page" id="page-6">
         <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 5</div>
         <h1>Caracterização Mercadológica</h1>
-        <p>Aqui você define o posicionamento do ativo.</p>
-        
+        <p class="page-subtitle">Definindo o posicionamento competitivo.</p>
+
         <div class="field-card">
             <div class="field-card-header">Análise de Concorrência</div>
             <div class="field-card-body">
-                <p>Identifique quem compete com a Embrapa. <strong>Pergunta-chave:</strong> O que o produtor usa hoje para resolver esse problema?</p>
-                <div class="prompt-box">
-"Atue como especialista em agro. Mapeie concorrentes para:
-- Cultura: [Milho]
-- Problema: [Enfezamento]
-- Diferencial: [Tolerância genética]..."
-                </div>
+                <p>Identifique quem compete com a tecnologia da Embrapa. <strong>Pergunta-chave:</strong> O que o produtor usa hoje para resolver esse problema?</p>
+                <div class="prompt-box">"Atue como um especialista em mercado agropecuário. Mapeie concorrentes diretos e indiretos para:
+- Cultura: [Inserir]
+- Problema: [Inserir]
+- Diferencial: [Inserir]"</div>
             </div>
         </div>
 
-        <div class="table-wrap">
-            <table>
-                <tr><th>Fonte</th><th>Link/Recurso</th></tr>
-                <tr><td>Cultivares</td><td>RNC / SNPC (MAPA)</td></tr>
-                <tr><td>Sementes</td><td>Córtex Embrapa</td></tr>
-                <tr><td>Bioinsumos</td><td>Agrofit / App Bioinsumos</td></tr>
-            </table>
+        <div class="field-card">
+            <div class="field-card-header">Público-alvo e Cadeias</div>
+            <div class="field-card-body">
+                <p>Seja específico. Em vez de apenas "Produtor Rural", utilize "Produtor de médio nível tecnológico no Cerrado".</p>
+            </div>
         </div>
+
         <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(5)">Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(7)">Próximo</button>
+            <button class="btn btn-secondary" onclick="goTo(5)">← Anterior</button>
+            <button class="btn btn-primary" onclick="goTo(7)">Capítulo 6 →</button>
         </div>
     </section>
 
@@ -358,27 +424,30 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
     <section class="page" id="page-7">
         <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 6</div>
         <h1>SWOT e Estratégia</h1>
-        
+        <p class="page-subtitle">Transformando dados em estratégia de transferência.</p>
+
         <div class="field-card">
             <div class="field-card-header">Matriz SWOT</div>
             <div class="field-card-body">
-                <p>Consolide as Forças, Fraquezas, Oportunidades e Ameaças. Use o <strong>NotebookLM</strong> ou <strong>ChatGPT</strong> colando a aba do pesquisador para gerar um rascunho inicial.</p>
+                <p>Consolide Forças, Fraquezas, Oportunidades e Ameaças. Use as informações de inovação do pesquisador como base para as Forças.</p>
             </div>
         </div>
 
         <div class="field-card">
-            <div class="field-card-header">Modelo de Negócio (Indicação de Inserção)</div>
+            <div class="field-card-header">Indicação de Inserção</div>
             <div class="field-card-body">
+                <p>Escolha a modalidade de disponibilização:</p>
                 <ul>
-                    <li><strong>Parceria PD&I:</strong> Para ativos em desenvolvimento (Cooperação Técnica).</li>
-                    <li><strong>Licenciamento:</strong> Para ativos prontos (Exploração de Cultivar/Patente).</li>
-                    <li><strong>Gratuito/Know-how:</strong> Para softwares ou treinamentos.</li>
+                    <li><strong>Grupo 1 (Parceria PD&I):</strong> Contratos de cooperação.</li>
+                    <li><strong>Grupo 2 (Licenciamento):</strong> Exploração de patente/cultivar.</li>
+                    <li><strong>Grupo 3 (Outros):</strong> Venda direta, know-how ou gratuito.</li>
                 </ul>
             </div>
         </div>
+
         <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(6)">Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(8)">Próximo</button>
+            <button class="btn btn-secondary" onclick="goTo(6)">← Anterior</button>
+            <button class="btn btn-primary" onclick="goTo(8)">Capítulo 7 →</button>
         </div>
     </section>
 
@@ -386,24 +455,27 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
     <section class="page" id="page-8">
         <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 7</div>
         <h1>Parcerias e Regulatório</h1>
-        
+        <p class="page-subtitle">Conformidade legal e proteção de ativos.</p>
+
+        <div class="callout dica">
+            <span class="callout-title">📋 Dica de Pesquisa</span>
+            <p>Leia o contrato SAIC ou processo SEI do projeto. Geralmente eles contêm todos os dados dos parceiros (CNPJ, percentuais) necessários.</p>
+        </div>
+
         <div class="field-card">
             <div class="field-card-header">Checklist Regulatório</div>
             <div class="field-card-body">
-                <p>Para cada item, informe Sim/Não e os documentos:</p>
                 <ul>
-                    <li><strong>Patrimônio Genético (SisGen):</strong> Fundamental para biodiversidade.</li>
-                    <li><strong>Biossegurança (CTNBio):</strong> Obrigatório para transgênicos (OGM).</li>
-                    <li><strong>Propriedade Intelectual:</strong> Verifique com o CLPI (Fernanda Almeida).</li>
+                    <li><strong>SisGen:</strong> Acesso ao Patrimônio Genético.</li>
+                    <li><strong>CTNBio:</strong> Biossegurança (para OGMs).</li>
+                    <li><strong>PI:</strong> Status da proteção (Fernanda de Almeida é o ponto focal).</li>
                 </ul>
             </div>
         </div>
-        <div class="callout dica">
-            <strong>Dica de Ouro:</strong> Um contrato SAIC ou processo SEI bem lido geralmente contém todos os dados de parceiros (CNPJ, percentuais) que você precisa para esta aba.
-        </div>
+
         <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(7)">Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(9)">Próximo</button>
+            <button class="btn btn-secondary" onclick="goTo(7)">← Anterior</button>
+            <button class="btn btn-primary" onclick="goTo(9)">Capítulo 8 →</button>
         </div>
     </section>
 
@@ -411,30 +483,25 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
     <section class="page" id="page-9">
         <div class="chapter-badge"><div class="chapter-badge-line"></div>Capítulo 8</div>
         <h1>Finalização e Contatos</h1>
-        
-        <div class="field-card">
-            <div class="field-card-header">Fluxo de Encerramento</div>
-            <div class="field-card-body">
-                <ol>
-                    <li>Notifique o gestor por e-mail (julia.resende@embrapa.com.br).</li>
-                    <li>O Gestor valida os campos.</li>
-                    <li>O PDF é gerado e enviado ao Pesquisador.</li>
-                </ol>
-            </div>
+        <p class="page-subtitle">Como concluir sua tarefa com sucesso.</p>
+
+        <div class="highlight-box">
+            <p>Após preencher tudo, envie um e-mail para a Gestora de Ativos (<strong>julia.resende@embrapa.com.br</strong>) informando a conclusão.</p>
         </div>
 
-        <h2>Suporte</h2>
+        <h2>Contatos Úteis</h2>
         <div class="table-wrap">
             <table>
-                <tr><td>Dúvidas Planilha</td><td>Julia Miranda</td></tr>
-                <tr><td>Propriedade Intelectual</td><td>Fernanda Almeida (CLPI)</td></tr>
-                <tr><td>Regulatório</td><td>Maria José Vilaça</td></tr>
+                <tr><th>Assunto</th><th>Responsável</th></tr>
+                <tr><td>Processo/Planilha</td><td>Julia Miranda</td></tr>
+                <tr><td>Propriedade Intelectual</td><td>Fernanda de Almeida</td></tr>
+                <tr><td>Leis/Regulatório</td><td>Maria José Vilaça</td></tr>
             </table>
         </div>
 
         <div class="page-nav">
-            <button class="btn btn-secondary" onclick="goTo(8)">Anterior</button>
-            <button class="btn btn-primary" onclick="goTo(0)">Voltar ao Início</button>
+            <button class="btn btn-secondary" onclick="goTo(8)">← Anterior</button>
+            <button class="btn btn-primary" onclick="goTo(0)">🏠 Início</button>
         </div>
     </section>
 
@@ -442,28 +509,27 @@ td { padding: 12px; border-bottom: 1px solid var(--border); }
 </div>
 
 <script>
+const totalPages = 10;
 const chapters = [
   { label: 'Capa', icon: '🏠' },
   { label: 'Sumário', icon: '📋' },
   { label: '1. Introdução', icon: '01' },
   { label: '2. Processo', icon: '02' },
-  { label: '3. Uso da Planilha', icon: '03' },
-  { label: '4. Guia de Leitura', icon: '04' },
+  { label: '3. Planilha', icon: '03' },
+  { label: '4. Leitura', icon: '04' },
   { label: '5. Mercadológica', icon: '05' },
-  { label: '6. SWOT e Estratégia', icon: '06' },
+  { label: '6. SWOT', icon: '06' },
   { label: '7. Regulatório', icon: '07' },
   { label: '8. Finalização', icon: '08' }
 ];
-
 let current = 0;
-const totalPages = chapters.length;
 
 function buildSidebar() {
   const nav = document.getElementById('sidebarNav');
   chapters.forEach((ch, i) => {
     const btn = document.createElement('button');
     btn.className = 'nav-item' + (i === 0 ? ' active' : '');
-    btn.innerHTML = `<span style="width:20px; opacity:0.6; font-weight:700;">${ch.icon}</span><span>${ch.label}</span>`;
+    btn.innerHTML = `<span class="nav-item-num">${ch.icon}</span><span>${ch.label}</span>`;
     btn.onclick = () => goTo(i);
     nav.appendChild(btn);
   });
@@ -482,6 +548,7 @@ function goTo(n) {
 function updateProgress() {
   const pct = Math.round(((current + 1) / totalPages) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = 'Página ' + (current + 1) + ' de ' + totalPages;
 }
 
 buildSidebar();
